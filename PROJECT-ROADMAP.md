@@ -8,10 +8,15 @@ Operator intent (MVP): Control Plane REST API only, backed by Postgres, polling 
 
 ## 2. Current state
 
-- Repo created: github.com/xarop-pa-toss/flaggo (public), Go 1.27 module.
-- Initial scaffold: main.go (hello), .gitignore, README.md, go.mod.
-- No domain code yet. No DB schema. No HTTP server. No tests.
-- Operator has NOT asked for Dockerfiles/deployment manifests — out of scope (operator owns).
+- Repo: github.com/xarop-pa-toss/flaggo (public), Go 1.27 module.
+- Control plane HTTP server: /healthz, /readyz, /metrics, structured JSON logs, graceful shutdown, env config.
+- Postgres store: flags table, CRUD, migration on startup; degraded mode when DB absent.
+- Control Plane REST API: create/list/get/update/delete flags, kill switch, rollout.
+- Flag evaluation engine (deterministic rollout by user key).
+- Polling data-plane example client in examples/client.
+- README documents env vars, endpoints, run instructions.
+- Tests: eval + HTTP handler tests pass. No Postgres available in this env, so store integration tests not run.
+- Operator owns Dockerfiles/deployment (out of scope).
 
 ## 3. Planned phases
 
