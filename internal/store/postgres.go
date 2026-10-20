@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgxpool"
 
 	"github.com/xarop-pa-toss/flaggo/internal/model"
@@ -140,10 +141,9 @@ func (s *PostgresStore) Delete(ctx context.Context, name string) error {
 }
 
 func isUniqueViolation(err error) bool {
-	// pgx wraps pgconn.PgError; check message/code loosely.
-	var pgErr interface{ SQLState() string }
+	var pgErr *pgconn.PgError
 	if errors.As(err, &pgErr) {
-		return pgErr.SQLState() == "23505"
+		return pgErr.Code == "23505"
 	}
 	return false
 }
