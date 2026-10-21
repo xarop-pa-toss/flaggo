@@ -16,7 +16,8 @@ Operator intent (MVP): Control Plane REST API only, backed by Postgres, polling 
 - Polling data-plane example client in examples/client.
 - README documents env vars, endpoints, run instructions.
 - Tests: eval + HTTP handler tests pass. No Postgres available in this env, so store integration tests not run.
-- Operator owns Dockerfiles/deployment (out of scope).
+- Binary subcommands: `serve` (default), `healthcheck` (container probe, exit 0/1), `version` (ldflags-injectable).
+- Operator owns Dockerfiles AND CI/CD pipelines (learning goal) — agent provides guidance, not execution. No Dockerfiles, workflows, or deploy manifests in this repo.
 
 ## 3. Planned phases
 
@@ -60,6 +61,7 @@ Success: README documents env vars, endpoints, and how to run; `go test ./...` g
 - Multi-tenancy / organizations.
 - SDKs beyond the example Go client (Node, Python, etc.).
 - Dockerfiles, docker-compose, Helm, Kubernetes manifests (operator owns deployment).
+- GitHub Actions workflows, CI/CD pipeline definitions, Docker Hub push automation (operator owns these as a learning exercise — agent advises, does not write).
 - Feature flag targeting rules beyond rollout % (user segments, attributes).
 
 ### Adding scope

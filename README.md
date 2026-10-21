@@ -63,6 +63,16 @@ curl -X POST localhost:8080/flags/new-ui/kill-switch
 curl -X PUT localhost:8080/flags/new-ui/rollout -d '{"rollout_percent":50}'
 ```
 
+## Commands
+
+| Command | Description |
+|---------|-------------|
+| `flaggo serve` | Run the control plane (default when no command given) |
+| `flaggo healthcheck` | Probe `/healthz`; exit 0 = healthy, 1 = unhealthy. Designed for container `HEALTHCHECK` in shell-less base images |
+| `flaggo version` | Print the build version (set via `-ldflags "-X main.version=..."`) |
+
+`flaggo healthcheck` targets `http://127.0.0.1:$PORT/healthz` by default; override with `HEALTHCHECK_URL`.
+
 ## Build & test
 
 ```sh
