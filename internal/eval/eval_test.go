@@ -9,10 +9,10 @@ import (
 
 func TestEvaluate(t *testing.T) {
 	cases := []struct {
-		name   string
-		flag   model.Flag
-		user   string
-		want   bool
+		name string
+		flag model.Flag
+		user string
+		want bool
 	}{
 		{"disabled", model.Flag{Name: "f", Enabled: false, RolloutPercent: 100}, "u", false},
 		{"kill switch", model.Flag{Name: "f", Enabled: true, RolloutPercent: 100, KillSwitch: true}, "u", false},

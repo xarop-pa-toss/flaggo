@@ -36,7 +36,8 @@ func main() {
 }
 
 // version is overridable at build time:
-//   go build -ldflags "-X main.version=$(git describe --tags --always)"
+//
+//	go build -ldflags "-X main.version=$(git describe --tags --always)"
 var version = "dev"
 
 func runServer() {
@@ -48,34 +49,43 @@ func runServer() {
 	log := newLogger(cfg.LogLevel)
 	slog.SetDefault(log)
 
-	metrics := observability.NewMetrics()
+	metrics := observability.NewDefaultMetrics()
 	health := httpx.NewHealthHandler()
 
-	// Storage is optional: if DATABASE_URL is unset, the control plane
-	// runs in degraded mode (healthz ok, readyz not ready, no flag routes).
+	// Storage: Postgres in production, in-memory for local development and
+	// tests. When neither is usable the control plane runs in degraded mode
+	// (healthz ok, readyz not ready, no flag routes).
 	var flagsHandler *httpx.FlagsHandler
 	var st store.Store
-	if cfg.DatabaseURL != "" {
+	switch cfg.Store {
+	case "memory":
+		st = store.NewMemory()
+		health.SetReady(true)
+		flagsHandler = httpx.NewFlagsHandler(st, log)
+		log.Info("using in-memory store (development mode)")
+	case "postgres":
+		if cfg.DatabaseURL == "" {
+			log.Warn("DATABASE_URL not set; running without persistence")
+			health.SetReady(false)
+			break
+		}
 		s, err := store.NewPostgres(context.Background(), cfg.DatabaseURL)
 		if err != nil {
 			log.Error("database connection failed", "err", err)
 			health.SetReady(false)
-		} else {
-			st = s
-			if err := st.Migrate(context.Background()); err != nil {
-				log.Error("database migration failed", "err", err)
-				health.SetReady(false)
-				st.Close()
-				st = nil
-			} else {
-				health.SetReady(true)
-				flagsHandler = httpx.NewFlagsHandler(st, log)
-				log.Info("database ready")
-			}
+			break
 		}
-	} else {
-		log.Warn("DATABASE_URL not set; running without persistence")
-		health.SetReady(false)
+		st = s
+		if err := st.Migrate(context.Background()); err != nil {
+			log.Error("database migration failed", "err", err)
+			health.SetReady(false)
+			st.Close()
+			st = nil
+			break
+		}
+		health.SetReady(true)
+		flagsHandler = httpx.NewFlagsHandler(st, log)
+		log.Info("database ready")
 	}
 
 	router := httpx.NewRouter(httpx.Deps{

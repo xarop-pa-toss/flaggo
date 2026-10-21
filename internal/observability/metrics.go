@@ -14,8 +14,10 @@ type Metrics struct {
 	RequestDur    *prometheus.HistogramVec
 }
 
-// NewMetrics registers and returns application metrics.
-func NewMetrics() *Metrics {
+// NewMetrics registers and returns application metrics on the given
+// registerer. Use prometheus.DefaultRegisterer for a single-binary process;
+// use a fresh registry when running several servers in one process (tests).
+func NewMetrics(reg prometheus.Registerer) *Metrics {
 	m := &Metrics{
 		RequestsTotal: prometheus.NewCounterVec(
 			prometheus.CounterOpts{
@@ -33,8 +35,13 @@ func NewMetrics() *Metrics {
 			[]string{"method", "path"},
 		),
 	}
-	prometheus.MustRegister(m.RequestsTotal, m.RequestDur)
+	reg.MustRegister(m.RequestsTotal, m.RequestDur)
 	return m
+}
+
+// NewDefaultMetrics registers metrics on the global default registerer.
+func NewDefaultMetrics() *Metrics {
+	return NewMetrics(prometheus.DefaultRegisterer)
 }
 
 // Handler returns the Prometheus scrape handler.

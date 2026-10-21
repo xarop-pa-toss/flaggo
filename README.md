@@ -2,76 +2,166 @@
 
 A lightweight, self-hosted Feature Flag & Runtime Configuration Platform. Built to demonstrate containerization and modern CI/CD patterns.
 
-Flaggo decouples **deployment** from **release**: a centralized Control Plane (this service) exposes an API to create flags, set rollout percentages, and trigger instant kill switches. Client applications (Data Plane) poll the API and evaluate flags in memory — no restarts, no redeployments.
+Flaggo decouples **deployment** from **release**: a centralized Control Plane exposes an API to create flags, set rollout percentages, and trigger instant kill switches. Client applications (Data Plane) poll the API and evaluate flags in memory — no restarts, no redeployments.
 
-> Dockerfiles and deployment manifests are intentionally **not** included — the operator owns deployment. The app is structured as a good operability example: structured JSON logs, Prometheus metrics, health/readiness probes, graceful shutdown, 12-factor config.
+---
 
-## Configuration (environment variables)
+## Architecture — the 4-app stack
 
-| Variable            | Default     | Description                                  |
-|---------------------|-------------|----------------------------------------------|
-| `PORT`              | `8080`      | HTTP listen port                             |
-| `LOG_LEVEL`         | `info`      | debug / info / warn / error                  |
-| `DATABASE_URL`      | (empty)     | Postgres connection string; if empty, degraded mode (readyz not ready, no flag routes) |
-| `SHUTDOWN_TIMEOUT`  | `10s`       | Graceful shutdown timeout                    |
-| `READ_TIMEOUT`      | `15s`      | HTTP read timeout                            |
-| `WRITE_TIMEOUT`     | `15s`      | HTTP write timeout                           |
+```
+                     host port 8080
+                           │
+                    ┌──────────────┐
+                    │   frontend   │  Control Plane dashboard + API gateway
+                    │  (public)    │  serves the UI, proxies /api → api:8080
+                    └──────┬───────┘
+                           │  internal "flaggo" bridge network
+              ┌────────────┼────────────┐
+              │            │            │
+        ┌─────▼─────┐ ┌────▼─────┐ ┌────▼──────┐
+        │    api    │ │  client  │ │    db     │
+        │ (private) │ │ (private)│ │ (private) │
+        │  Go API   │ │  worker  │ │ PostgreSQL│
+        └─────┬─────┘ └──────────┘ └───────────┘
+              │                    polls api directly
+        ┌─────▼─────┐
+        │    db     │
+        │ PostgreSQL│
+        └───────────┘
+```
 
-Client example (`examples/client`):
+**Port-exposure rule (enforced by a test in `internal/deploy/`):**
 
-| Variable             | Default                  | Description                      |
-|----------------------|--------------------------|----------------------------------|
-| `CONTROL_PLANE_URL`  | `http://localhost:8080`  | Control plane base URL           |
-| `POLL_INTERVAL`      | `2s`                     | Polling interval                 |
-| `USER_KEY`           | `demo-user`              | User key for rollout evaluation  |
-| `FLAG_NAME`          | `new-ui`                 | Flag to evaluate                 |
+| Service   | Host port | Reachable from            |
+|-----------|-----------|---------------------------|
+| `frontend`| **yes**   | host + internal network   |
+| `api`     | no        | internal network only     |
+| `client`  | no        | internal network only     |
+| `db`      | no        | internal network only     |
 
-## Run
+Only the frontend binds to the host. The API, the data-plane worker, and the database are reachable exclusively over the internal bridge network, addressed by service name (`http://api:8080`, `db:5432`).
+
+---
+
+## Quick start (containers)
 
 ```sh
-# 1. Start Postgres (operator's responsibility), then:
-export DATABASE_URL=postgres://user:pass@localhost:5432/flaggo?sslmode=disable
-go run ./cmd/flaggo
-
-# 2. In another terminal, run the data-plane example client:
-CONTROL_PLANE_URL=http://localhost:8080 go run ./examples/client
+docker compose up --build      # build + start all four apps
+docker compose ps             # status
+docker compose logs -f client # watch the data plane poll
+docker compose down           # stop (keeps the db volume)
+docker compose down -v        # stop and wipe the db volume
 ```
+
+Then open **http://localhost:8080** — that is the dashboard, and the only published port.
+
+Create a flag in the UI, and watch the data-plane client pick it up within one poll interval, with no restart of anything.
+
+### Images
+
+One Dockerfile, three targets:
+
+```sh
+docker build --target api      -t flaggo/api:dev .
+docker build --target frontend -t flaggo/frontend:dev .
+docker build --target client   -t flaggo/client:dev .
+```
+
+The `db` service is the upstream `postgres:16-alpine` image — not built from this repo.
+
+---
+
+## Local development (no container required)
+
+You do **not** need Postgres installed on your host to develop the app. Use the in-memory store:
+
+```sh
+# 1. Control Plane API, in-memory store
+STORE=memory go run ./cmd/flaggo
+
+# 2. Frontend + gateway (separate terminal)
+BACKEND_URL=http://127.0.0.1:8080 go run ./cmd/flaggo-web
+
+# 3. Data plane client (separate terminal)
+CONTROL_PLANE_URL=http://127.0.0.1:8080 go run ./examples/client
+```
+
+Open http://localhost:8080. Flags you create live in memory and vanish on restart — that is the point of the dev mode.
+
+With Postgres instead: set `DATABASE_URL` and leave `STORE=postgres` (the default).
+
+---
+
+## Configuration
+
+### Control Plane API (`cmd/flaggo`)
+
+| Variable           | Default   | Description                                                    |
+|--------------------|-----------|----------------------------------------------------------------|
+| `PORT`             | `8080`    | HTTP listen port                                               |
+| `LOG_LEVEL`        | `info`    | debug / info / warn / error                                    |
+| `STORE`            | `postgres`| `postgres` or `memory` (in-memory = development)              |
+| `DATABASE_URL`     | (empty)   | Postgres DSN; required when `STORE=postgres`                   |
+| `SHUTDOWN_TIMEOUT` | `10s`     | Graceful shutdown timeout                                      |
+| `READ_TIMEOUT`     | `15s`     | HTTP read timeout                                              |
+| `WRITE_TIMEOUT`    | `15s`     | HTTP write timeout                                             |
+
+### Frontend / gateway (`cmd/flaggo-web`)
+
+| Variable        | Default             | Description                                    |
+|-----------------|---------------------|------------------------------------------------|
+| `PORT`          | `8080`              | HTTP listen port (the published port)          |
+| `BACKEND_URL`   | `http://api:8080`   | Control Plane API base URL                     |
+| `LOG_LEVEL`     | `info`              | debug / info / warn / error                    |
+| `HEALTHCHECK_URL` | `http://127.0.0.1:$PORT/healthz` | Override the probe target       |
+
+### Data plane client (`examples/client`)
+
+| Variable            | Default                 | Description                     |
+|---------------------|-------------------------|---------------------------------|
+| `CONTROL_PLANE_URL` | `http://localhost:8080` | API base URL                    |
+| `POLL_INTERVAL`     | `2s`                    | Polling interval                |
+| `USER_KEY`          | `demo-user`             | User key for rollout evaluation |
+| `FLAG_NAME`         | `new-ui`                | Flag to evaluate                |
+
+---
 
 ## API
 
-| Method | Path                              | Description                          |
-|--------|-----------------------------------|--------------------------------------|
-| GET    | `/healthz`                        | Liveness probe                       |
-| GET    | `/readyz`                         | Readiness probe (DB connectivity)    |
-| GET    | `/metrics`                        | Prometheus metrics                   |
-| POST   | `/flags`                          | Create a flag                        |
-| GET    | `/flags`                          | List flags                           |
-| GET    | `/flags/{name}`                   | Get a flag                           |
-| PUT    | `/flags/{name}`                   | Update a flag                        |
-| DELETE | `/flags/{name}`                   | Delete a flag                        |
-| POST   | `/flags/{name}/kill-switch`       | Toggle / set kill switch             |
-| PUT    | `/flags/{name}/rollout`           | Set rollout percentage               |
+All flag routes are served by the API on its internal port and proxied by the gateway under `/api`.
 
-### Example walkthrough
+| Method | Path                            | Description                    |
+|--------|---------------------------------|--------------------------------|
+| GET    | `/healthz`                      | Liveness probe                 |
+| GET    | `/readyz`                       | Readiness probe (DB reachable) |
+| GET    | `/metrics`                      | Prometheus metrics             |
+| POST   | `/flags`                        | Create a flag                  |
+| GET    | `/flags`                        | List flags                     |
+| GET    | `/flags/{name}`                 | Get a flag                     |
+| PUT    | `/flags/{name}`                 | Update a flag                  |
+| DELETE | `/flags/{name}`                 | Delete a flag                  |
+| POST   | `/flags/{name}/kill-switch`     | Toggle / set kill switch       |
+| PUT    | `/flags/{name}/rollout`         | Set rollout percentage         |
 
 ```sh
-# create
-curl -X POST localhost:8080/flags -d '{"name":"new-ui","enabled":true,"rollout_percent":25}'
-# toggle kill switch
-curl -X POST localhost:8080/flags/new-ui/kill-switch
-# set rollout
-curl -X PUT localhost:8080/flags/new-ui/rollout -d '{"rollout_percent":50}'
+curl -X POST localhost:8080/api/flags -d '{"name":"new-checkout","enabled":true,"rollout_percent":25}'
+curl -X POST localhost:8080/api/flags/new-checkout/kill-switch
+curl -X PUT  localhost:8080/api/flags/new-checkout/rollout -d '{"rollout_percent":50}'
 ```
+
+---
 
 ## Commands
 
-| Command | Description |
-|---------|-------------|
-| `flaggo serve` | Run the control plane (default when no command given) |
-| `flaggo healthcheck` | Probe `/healthz`; exit 0 = healthy, 1 = unhealthy. Designed for container `HEALTHCHECK` in shell-less base images |
-| `flaggo version` | Print the build version (set via `-ldflags "-X main.version=..."`) |
+Both binaries take a subcommand:
 
-`flaggo healthcheck` targets `http://127.0.0.1:$PORT/healthz` by default; override with `HEALTHCHECK_URL`.
+| Command            | Description                                                                 |
+|--------------------|-----------------------------------------------------------------------------|
+| `serve`            | Run the service (default when no command is given)                         |
+| `healthcheck`      | Probe `/healthz`; exit 0 = healthy, 1 = unhealthy. For container `HEALTHCHECK` in shell-less base images |
+| `version`          | Print the build version (set via `-ldflags "-X main.version=..."`)          |
+
+---
 
 ## Build & test
 
@@ -80,6 +170,10 @@ go build ./...
 go vet ./...
 go test ./...
 ```
+
+The test suite covers flag evaluation, the REST handlers, the frontend↔API gateway contract (including request-id propagation and 502/503 behaviour), and the deployment policies (4 services, one published port).
+
+---
 
 ## License
 

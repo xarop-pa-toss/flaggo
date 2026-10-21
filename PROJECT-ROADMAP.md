@@ -4,20 +4,22 @@
 
 Flaggo is a lightweight, self-hosted Feature Flag & Runtime Configuration Platform built to demonstrate containerization and modern CI/CD patterns. It decouples deployment from release: a centralized Control Plane (management dashboard and API) where engineers toggle features, set user rollout percentages, and trigger instant kill switches in real time. Client applications (Data Plane) consume these rules via lightweight polling, evaluating feature logic dynamically in memory with zero downtime and zero restarts.
 
-Operator intent (MVP): Control Plane REST API only, backed by Postgres, polling data plane, with strong operability (health, metrics, logging, graceful shutdown, env config). Operator owns Dockerfiles and deployment. App is an example for a DevOps training roadmap — management/operation matters more than app sophistication.
+Operator intent (MVP, updated by operator request): a 4-app stack — Control Plane Frontend (dashboard + API gateway, the ONLY component with a host-published port), Control Plane Backend Web API, Data Plane client/evaluator, and PostgreSQL. Postgres is the production store; an in-memory store exists for local development without a DB. Polling data plane. Strong operability (health, metrics, logging, graceful shutdown, env config). Operator is learning containerization and CI/CD: the agent writes app code and teaches the deployment layer through heavily-commented artifacts; the operator reviews/rewrites them. App is an example for a DevOps training roadmap — management/operation matters more than app sophistication.
 
 ## 2. Current state
 
 - Repo: github.com/xarop-pa-toss/flaggo (public), Go 1.27 module.
 - Control plane HTTP server: /healthz, /readyz, /metrics, structured JSON logs, graceful shutdown, env config.
-- Postgres store: flags table, CRUD, migration on startup; degraded mode when DB absent.
+- Postgres store: flags table, CRUD, migration on startup; degraded mode when DB absent. In-memory store for dev/tests.
 - Control Plane REST API: create/list/get/update/delete flags, kill switch, rollout.
 - Flag evaluation engine (deterministic rollout by user key).
 - Polling data-plane example client in examples/client.
-- README documents env vars, endpoints, run instructions.
-- Tests: eval + HTTP handler tests pass. No Postgres available in this env, so store integration tests not run.
+- **Phase 7 done**: Control Plane Frontend (`cmd/flaggo-web`) — embedded zero-build dashboard (vanilla HTML/CSS/JS) + `/api` reverse-proxy gateway, request-id propagation, own /healthz + /readyz.
+- **Phase 7 done**: Dockerfile with 3 targets (api, frontend, client) on distroless/static:nonroot, CGO_ENABLED=0, exec-form HEALTHCHECK. .dockerignore.
+- **Phase 7 done**: compose.yaml — 4 services, one network, only `frontend` has `ports:`.
 - Binary subcommands: `serve` (default), `healthcheck` (container probe, exit 0/1), `version` (ldflags-injectable).
-- Operator owns Dockerfiles AND CI/CD pipelines (learning goal) — agent provides guidance, not execution. No Dockerfiles, workflows, or deploy manifests in this repo.
+- Tests: eval, API handlers, frontend↔API gateway contract, deployment policies. All green. No Postgres or container runtime on this host, so neither the compose stack nor the Postgres path has been executed end-to-end here.
+- NOT built: GitHub Actions workflows, image push pipeline, registry, deploy manifests — operator owns these.
 
 ## 3. Planned phases
 
@@ -45,36 +47,49 @@ Success: run control plane + client; toggle a flag via API; client reflects chan
 Goal: request IDs, panic recovery, timeouts, graceful degradation when DB down (readyz flips), README with run instructions, example env file.
 Success: README documents env vars, endpoints, and how to run; `go test ./...` green.
 
+### Phase 7 — Control Plane Frontend + 4-app container stack
+Goal: add the Control Plane Frontend (dashboard + API gateway) as the single host-published entry point; add Dockerfile (api/frontend/client targets) and compose.yaml (frontend, api, client, db).
+Success: dashboard renders and drives the API through the gateway; `docker compose up --build` yields 4 healthy services; only `frontend` publishes a host port; deployment policy tests pass.
+Status: DONE (app code + deployment artifacts authored). Not yet executed as containers — no container runtime on the build host.
+
+### Phase 8 — CI/CD pipeline (operator-owned, agent advises)
+Goal: GitHub Actions workflow: test gate → build 3 images → push to a registry → deploy hook. Secrets from Actions Secrets; immutable tags; buildx multi-arch.
+Success: pipeline green on a push; images published; operator has walked through every step.
+Status: NOT STARTED. Deliberately out of the agent's execution scope (operator learning goal).
+
 ## 4. Scope-creep defenses
 
 ### In scope (v1)
 - Control Plane REST API for flags (CRUD, toggle, rollout %, kill switch).
-- Postgres persistence.
+- Postgres persistence (+ in-memory store for dev/tests).
 - Polling data-plane example client.
+- Control Plane Frontend: dashboard + API gateway, the only host-published component.
+- Dockerfile (api/frontend/client targets) and compose.yaml (4-app stack, 1 published port).
 - Operability: healthz/readyz, metrics, structured logs, graceful shutdown, env config.
-- Tests (unit + integration where feasible).
+- Tests (unit + integration where feasible), including deployment policy tests.
 
 ### Out of scope (v1) — do NOT build unless operator asks
-- Web UI / dashboard (operator may add later).
 - Authentication/authorization (note: add API key auth in v2).
 - SSE or webhooks (polling only for v1).
 - Multi-tenancy / organizations.
 - SDKs beyond the example Go client (Node, Python, etc.).
-- Dockerfiles, docker-compose, Helm, Kubernetes manifests (operator owns deployment).
-- GitHub Actions workflows, CI/CD pipeline definitions, Docker Hub push automation (operator owns these as a learning exercise — agent advises, does not write).
+- Helm, Kubernetes manifests, cloud deploy configs (operator owns deployment).
+- GitHub Actions workflows, CI/CD pipeline definitions, registry push automation (operator owns these as a learning exercise — agent advises, does not write).
 - Feature flag targeting rules beyond rollout % (user segments, attributes).
+- A JS build pipeline for the dashboard (the UI is deliberately zero-build, embedded in the Go binary).
 
 ### Adding scope
 A new feature/phase is added ONLY if the operator explicitly requests it OR the gap widens (e.g., a discovered requirement makes v1 unusable). "While I'm here" ideas go to the "Note for later" list, not into code.
 
 ### Note for later (deferred ideas)
 - API key auth (v2).
-- Web UI dashboard (v2).
 - SSE push for lower latency (v2).
 - Webhooks for integrations (v2).
 - Rich targeting rules (user attributes, segments) (v2).
 - OpenAPI spec generation (v2).
 - Rate limiting / quotas (v2).
+- Multi-arch (arm64) image builds via buildx (Phase 8).
+- Image scanning (Trivy) in CI (Phase 8).
 
 ## 5. Controlled-evolution path
 

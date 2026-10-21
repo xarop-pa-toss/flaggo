@@ -15,6 +15,7 @@ import (
 type Config struct {
 	Port            string
 	LogLevel        string
+	Store           string
 	DatabaseURL     string
 	ShutdownTimeout time.Duration
 	ReadTimeout     time.Duration
@@ -26,6 +27,7 @@ func Load() (Config, error) {
 	cfg := Config{
 		Port:            envOr("PORT", "8080"),
 		LogLevel:        strings.ToLower(envOr("LOG_LEVEL", "info")),
+		Store:           strings.ToLower(envOr("STORE", "postgres")),
 		DatabaseURL:     os.Getenv("DATABASE_URL"),
 		ShutdownTimeout: durOr("SHUTDOWN_TIMEOUT", 10*time.Second),
 		ReadTimeout:     durOr("READ_TIMEOUT", 15*time.Second),
@@ -33,6 +35,11 @@ func Load() (Config, error) {
 	}
 	if cfg.Port == "" {
 		return Config{}, fmt.Errorf("PORT must not be empty")
+	}
+	switch cfg.Store {
+	case "postgres", "memory":
+	default:
+		return Config{}, fmt.Errorf("STORE must be 'postgres' or 'memory', got %q", cfg.Store)
 	}
 	return cfg, nil
 }

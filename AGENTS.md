@@ -38,14 +38,20 @@ DATABASE_URL=postgres://... go run ./cmd/flaggo
 ## Repo Layout (target)
 
 ```
-cmd/flaggo/          # main entrypoint (control plane)
+cmd/flaggo/          # Control Plane Backend Web API (entrypoint)
+cmd/flaggo-web/      # Control Plane Frontend: dashboard + API gateway
 internal/
   config/            # env-based config
-  http/              # handlers, router, middleware
-  store/             # Postgres persistence (flags, rules)
+  http/              # API handlers, router, middleware
+  web/               # frontend/gateway: static UI + reverse proxy
+  store/             # persistence (postgres.go, memory.go)
   model/             # domain types
   eval/              # flag evaluation (rollout %, kill switch)
+  observability/     # prometheus metrics
+  deploy/            # policy tests for Dockerfile + compose.yaml
 examples/
-  client/            # polling data-plane example
+  client/            # polling data-plane client
+Dockerfile           # 3 targets: api, frontend, client
+compose.yaml         # 4-app stack; only frontend publishes a host port
 PROJECT-ROADMAP.md
 ```

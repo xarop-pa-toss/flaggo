@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flaggo — Control Plane</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">◈</span>
+    <div>
+      <h1>Flaggo</h1>
+      <p class="tagline">Feature Flag &amp; Runtime Configuration — Control Plane</p>
+    </div>
+  </div>
+  <div class="status" id="status">
+    <span class="dot" id="status-dot"></span>
+    <span id="status-text">connecting…</span>
+  </div>
+</header>
+
+<main>
+  <section class="card">
+    <h2>Create flag</h2>
+    <form id="create-form" autocomplete="off">
+      <div class="grid">
+        <label>
+          Name
+          <input name="name" id="f-name" required placeholder="new-checkout">
+        </label>
+        <label>
+          Description
+          <input name="description" id="f-desc" placeholder="What does this flag control?">
+        </label>
+        <label>
+          Rollout %
+          <input name="rollout_percent" id="f-rollout" type="number" min="0" max="100" value="0">
+        </label>
+        <label class="check">
+          <input name="enabled" id="f-enabled" type="checkbox"> Enabled
+        </label>
+        <label class="check">
+          <input name="kill_switch" id="f-kill" type="checkbox"> Kill switch
+        </label>
+      </div>
+      <div class="actions">
+        <button type="submit" class="primary">Create flag</button>
+        <span class="msg" id="create-msg"></span>
+      </div>
+    </form>
+  </section>
+
+  <section class="card">
+    <div class="card-head">
+      <h2>Flags</h2>
+      <div class="actions">
+        <label class="check inline">
+          <input type="checkbox" id="auto-refresh" checked> Auto-refresh
+        </label>
+        <span class="muted" id="refresh-note">every 5s</span>
+        <button id="refresh-btn" class="ghost">Refresh now</button>
+      </div>
+    </div>
+    <div id="flags-empty" class="empty hidden">No flags yet. Create one above.</div>
+    <table id="flags-table" class="hidden">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Enabled</th>
+          <th>Rollout</th>
+          <th>Kill switch</th>
+          <th>Updated</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="flags-body"></tbody>
+    </table>
+  </section>
+</main>
+
+<div id="toast" class="toast hidden"></div>
+<script src="/static/app.js"></script>
+</body>
+</html>
