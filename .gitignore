@@ -1,5 +1,9 @@
-# Binaries
-flaggo
+# Binaries (root-anchored: only the built artifacts at repo root, not
+# the cmd/flaggo source directory — an unanchored "flaggo" pattern would
+# also match cmd/flaggo/ and silently exclude the whole entrypoint).
+/flaggo
+/client
+
 *.exe
 *.exe~
 *.dll
@@ -26,4 +30,3 @@ go.work.sum
 # OS
 .DS_Store
 Thumbs.db
-">client
