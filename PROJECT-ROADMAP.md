@@ -15,11 +15,9 @@ Operator intent (MVP, updated by operator request): a 4-app stack — Control Pl
 - Flag evaluation engine (deterministic rollout by user key).
 - Polling data-plane example client in examples/client.
 - **Phase 7 done**: Control Plane Frontend (`cmd/flaggo-web`) — embedded zero-build dashboard (vanilla HTML/CSS/JS) + `/api` reverse-proxy gateway, request-id propagation, own /healthz + /readyz.
-- **Phase 7 done**: Dockerfile with 3 targets (api, frontend, client) on distroless/static:nonroot, CGO_ENABLED=0, exec-form HEALTHCHECK. .dockerignore.
-- **Phase 7 done**: compose.yaml — 4 services, one network, only `frontend` has `ports:`.
 - Binary subcommands: `serve` (default), `healthcheck` (container probe, exit 0/1), `version` (ldflags-injectable).
-- Tests: eval, API handlers, frontend↔API gateway contract, deployment policies. All green. No Postgres or container runtime on this host, so neither the compose stack nor the Postgres path has been executed end-to-end here.
-- NOT built: GitHub Actions workflows, image push pipeline, registry, deploy manifests — operator owns these.
+- Tests: eval, API handlers, frontend↔API gateway contract. All green. No Postgres or container runtime on this host, so the Postgres path has not been executed end-to-end here (the in-memory path has).
+- **NOT in the repo, deliberately: `Dockerfile`, `.dockerignore`, `compose.yaml`, `.github/`.** The operator writes the entire deployment layer. An earlier attempt by the agent to author these was reverted after the operator objected — do not repeat it.
 
 ## 3. Planned phases
 
@@ -47,15 +45,16 @@ Success: run control plane + client; toggle a flag via API; client reflects chan
 Goal: request IDs, panic recovery, timeouts, graceful degradation when DB down (readyz flips), README with run instructions, example env file.
 Success: README documents env vars, endpoints, and how to run; `go test ./...` green.
 
-### Phase 7 — Control Plane Frontend + 4-app container stack
-Goal: add the Control Plane Frontend (dashboard + API gateway) as the single host-published entry point; add Dockerfile (api/frontend/client targets) and compose.yaml (frontend, api, client, db).
-Success: dashboard renders and drives the API through the gateway; `docker compose up --build` yields 4 healthy services; only `frontend` publishes a host port; deployment policy tests pass.
-Status: DONE (app code + deployment artifacts authored). Not yet executed as containers — no container runtime on the build host.
+### Phase 7 — Control Plane Frontend
+Goal: add the Control Plane Frontend (dashboard + `/api` gateway) so the app can be driven from a browser.
+Success: dashboard renders, creates flags, toggles enabled / rollout / kill switch, and the data-plane client reacts within one poll interval.
+Status: DONE.
 
-### Phase 8 — CI/CD pipeline (operator-owned, agent advises)
-Goal: GitHub Actions workflow: test gate → build 3 images → push to a registry → deploy hook. Secrets from Actions Secrets; immutable tags; buildx multi-arch.
-Success: pipeline green on a push; images published; operator has walked through every step.
-Status: NOT STARTED. Deliberately out of the agent's execution scope (operator learning goal).
+### Phase 8 — Containerization (OPERATOR-OWNED — agent must not write these files)
+Goal: Dockerfiles for backend/frontend/client and an orchestration file that starts the whole stack.
+Success: operator's own artifacts build and run.
+Status: operator's task. The agent's only permitted role is answering questions and reviewing what the operator writes.
+
 
 ## 4. Scope-creep defenses
 
@@ -63,18 +62,16 @@ Status: NOT STARTED. Deliberately out of the agent's execution scope (operator l
 - Control Plane REST API for flags (CRUD, toggle, rollout %, kill switch).
 - Postgres persistence (+ in-memory store for dev/tests).
 - Polling data-plane example client.
-- Control Plane Frontend: dashboard + API gateway, the only host-published component.
-- Dockerfile (api/frontend/client targets) and compose.yaml (4-app stack, 1 published port).
+- Control Plane Frontend: dashboard + `/api` gateway.
 - Operability: healthz/readyz, metrics, structured logs, graceful shutdown, env config.
-- Tests (unit + integration where feasible), including deployment policy tests.
+- Tests (unit + integration where feasible).
 
-### Out of scope (v1) — do NOT build unless operator asks
+### Out of scope — do NOT build, even if asked "to make it run"
+- **Dockerfiles, `.dockerignore`, `compose.yaml`/`docker-compose.yml`, `.github/workflows/`, Helm, Kubernetes manifests, cloud deploy configs.** Operator-owned. Stop and ask.
 - Authentication/authorization (note: add API key auth in v2).
 - SSE or webhooks (polling only for v1).
 - Multi-tenancy / organizations.
 - SDKs beyond the example Go client (Node, Python, etc.).
-- Helm, Kubernetes manifests, cloud deploy configs (operator owns deployment).
-- GitHub Actions workflows, CI/CD pipeline definitions, registry push automation (operator owns these as a learning exercise — agent advises, does not write).
 - Feature flag targeting rules beyond rollout % (user segments, attributes).
 - A JS build pipeline for the dashboard (the UI is deliberately zero-build, embedded in the Go binary).
 

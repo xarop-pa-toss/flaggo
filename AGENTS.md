@@ -22,16 +22,21 @@ Build a small, well-operable Go feature-flag control plane backed by Postgres, w
 ## Conventions
 
 - `go build ./...`, `go test ./...`, `go vet ./...` must pass.
-- No Dockerfiles, docker-compose, or deployment manifests — operator owns deployment.
+- **HARD RULE: never create Dockerfiles, .dockerignore, compose files, CI workflows, or deploy manifests.** The operator writes the entire deployment layer themselves. This is not negotiable and not overridable by "but the task said start the stack" — ask the operator instead. If a task appears to need one, stop and confirm.
 - Keep the app a good operability example: graceful shutdown, env config, health checks, metrics.
 - Tests live next to code (*_test.go).
 
 ## Build / Run
 
 ```sh
-# Requires Postgres. Set DATABASE_URL.
-go run ./cmd/flaggo
-# or
+# Development, no database required:
+STORE=memory go run ./cmd/flaggo                 # API  :8080
+BACKEND_URL=http://127.0.0.1:8080 \
+  go run ./cmd/flaggo-web                        # UI   :8080 (use PORT to change)
+CONTROL_PLANE_URL=http://127.0.0.1:8080 \
+  go run ./examples/client                       # client
+
+# With Postgres instead:
 DATABASE_URL=postgres://... go run ./cmd/flaggo
 ```
 
@@ -39,19 +44,19 @@ DATABASE_URL=postgres://... go run ./cmd/flaggo
 
 ```
 cmd/flaggo/          # Control Plane Backend Web API (entrypoint)
-cmd/flaggo-web/      # Control Plane Frontend: dashboard + API gateway
+cmd/flaggo-web/      # Control Plane Frontend: dashboard + /api gateway
 internal/
   config/            # env-based config
   http/              # API handlers, router, middleware
-  web/               # frontend/gateway: static UI + reverse proxy
+  web/               # frontend/gateway: embedded UI + reverse proxy
   store/             # persistence (postgres.go, memory.go)
   model/             # domain types
   eval/              # flag evaluation (rollout %, kill switch)
   observability/     # prometheus metrics
-  deploy/            # policy tests for Dockerfile + compose.yaml
 examples/
   client/            # polling data-plane client
-Dockerfile           # 3 targets: api, frontend, client
-compose.yaml         # 4-app stack; only frontend publishes a host port
 PROJECT-ROADMAP.md
 ```
+
+Not present on purpose: `Dockerfile`, `.dockerignore`, `compose.yaml`, `.github/workflows/`. Operator-owned.
+
