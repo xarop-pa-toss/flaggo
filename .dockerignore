@@ -1,0 +1,26 @@
+# Version control
+.git
+.gitignore
+
+# Local build outputs & temp files
+/tmp
+/bin
+/dist
+*.exe
+*.test
+
+# Secrets & environment files
+.env
+.env.*
+*.pem
+*.key
+
+# Documentation & IDE
+*.md
+.vscode
+.idea
+.DS_Store
+
+# Container files (don't copy Dockerfiles into Dockerfiles)
+Dockerfile*
+compose*.yaml
