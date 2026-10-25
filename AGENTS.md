@@ -40,6 +40,13 @@ CONTROL_PLANE_URL=http://127.0.0.1:8080 \
 DATABASE_URL=postgres://... go run ./cmd/flaggo
 ```
 
+Or run all three locally in one shot:
+
+```sh
+./start.sh          # background start, logs in /tmp/opencode
+./start.sh stop
+```
+
 ## Repo Layout (target)
 
 ```

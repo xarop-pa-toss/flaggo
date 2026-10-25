@@ -18,6 +18,17 @@ Three parts:
 
 No database needed for development — the API has an in-memory store.
 
+### One command
+
+```sh
+./start.sh          # builds + starts backend, dashboard, client in the background
+./start.sh stop     # stops all three
+```
+
+Logs land in `/tmp/opencode/`. Then open **http://localhost:8090**.
+
+### Or three terminals
+
 **Terminal 1 — backend API (port 8080):**
 ```sh
 STORE=memory go run ./cmd/flaggo
