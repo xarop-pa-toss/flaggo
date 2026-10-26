@@ -20,24 +20,24 @@ services:
       - postgres
 
   # 3 - Frontend webapp
-  flaggo-frontend:
+  frontend:
     build:
       context: .
       dockerfile: Dockerfile.web
     environment:
       PORT: "8080"
-      BACKEND_URL: http://flaggo-backend:8080
+      BACKEND_URL: http://backend:8080
     ports:
       - "8080:8080" # ONLY port that gets opened to the host machine. Backend does not open any
     depends_on:
       - postgres
 
   # 4 - Client (simulates API user)
-  flaggo-client:
+  client:
     build:
       context: .
       dockerfile: Dockerfile.client
     environment:
-      CONTROL_PLANE_URL: http://flaggo-backend:8080
+      CONTROL_PLANE_URL: http://backend:8080
     depends_on:
       - backend  
