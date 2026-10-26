@@ -1,6 +1,6 @@
 services:
   # 1 - Persistent Postgres DB
-  flaggo-postgres:
+  postgres:
     image: postgres:16-alpine
     environment:
       POSTGRES_USER: admin
@@ -8,16 +8,16 @@ services:
       POSTGRES_DB: flaggo
 
   # 2 - Backend API
-  flaggo-backend:
+  backend:
     build:
       context: .
       dockerfile: Dockerfile.backend
     environment:
       STORE: postgres
-      DATABASE_URL: postgres://admin:totallysecurepassword@flaggo-postgres:5432/flaggo?sslmode=disable
+      DATABASE_URL: postgres://admin:totallysecurepassword@postgres:5432/flaggo?sslmode=disable
       PORT: "8080"
     depends_on:
-      - flaggo-postgres
+      - postgres
 
   # 3 - Frontend webapp
   flaggo-frontend:
@@ -30,7 +30,7 @@ services:
     ports:
       - "8080:8080" # ONLY port that gets opened to the host machine. Backend does not open any
     depends_on:
-      - flaggo-postgres
+      - postgres
 
   # 4 - Client (simulates API user)
   flaggo-client:
@@ -40,4 +40,4 @@ services:
     environment:
       CONTROL_PLANE_URL: http://flaggo-backend:8080
     depends_on:
-      - flaggo-backend  
+      - backend  
