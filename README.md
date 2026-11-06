@@ -12,6 +12,7 @@ Three parts:
 | **Frontend** | Dashboard UI + `/api` proxy to the backend | `cmd/flaggo-web` |
 | **Client** | Data Plane: polls flags, evaluates them, prints changes | `examples/client` |
 
+
 ---
 
 ## Run it
