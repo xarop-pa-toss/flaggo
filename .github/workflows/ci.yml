@@ -1,0 +1,44 @@
+# 1. Metadados
+name: Flaggo CI Pipeline
+
+# 2. Triggers (quando deve correr)
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# 3. Work Jobs
+jobs:
+  test-and-build:
+    name: Test & Build Flaggo
+    runs-on: ubuntu-latest
+
+  steps:
+    # Passo 1: Clonar o repo para dentro da VM
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    # Passo 2: Instalar Go 1.24 e ligar dependency caching
+    - name: Setup Go 1.24
+      uses: actions/setup-go@v5
+      with:
+        go-version: '1.24'
+        cache: true
+
+    # Passo 3: Correr analise de codigo (linter)
+    - name: Run Linter (go vet)
+      run: go vet ./...
+
+    # Passo 4: Correr unit tests
+    - name: Run Unit Tests
+      env:
+        STORE: memory
+      run: go test -v ./...
+
+    # Passo 5: Verificar que todos os binarios compilam OK
+    - name: Compile Flaggo Binaries
+      run:
+        go build -v -o /dev/null ./cmd/flaggo
+        go build -v -o /dev/null ./cmd/flaggo-web
+        go build -v -o /dev/null ./examples/client
