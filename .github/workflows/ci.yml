@@ -37,7 +37,7 @@ jobs:
   
       # Passo 5: Verificar que todos os binarios compilam OK
       - name: Compile Flaggo Binaries
-        run:
+        run: |
           go build -v -o /dev/null ./cmd/flaggo
           go build -v -o /dev/null ./cmd/flaggo-web
           go build -v -o /dev/null ./examples/client
