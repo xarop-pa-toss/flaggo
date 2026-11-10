@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:61b36fc3ed927dcc0fb34bab1eb72ee82c32e4718b10868b09ab25213c27437a",
+  "claims": [
+    {
+      "id": "claim_4060525791d94197a6bfff50fd81363e",
+      "statement": "Flaggo is a single Go module producing three binaries: control plane backend, frontend gateway, and data plane client.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md",
+          "version": "repo-file-v1:sha256:6f3adcf441be6115bb25f987c91e3b5ab659b144e50da67eeb1780eb09c8e1a1"
+        },
+        {
+          "resource": "repo://go.mod#L1-L3",
+          "version": "repo-lines-v1:sha256:c6ffaef454663d97a5c8637ad43871f7760526798d2cac4707f233b2b553138c:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNWJlODgyNDE4MGY1NzAwMzIyNzc1MzdkN2U5ZGVkOGE0ZThlYWQwYTVmNjcwZDVlZGMwYWYwYWIwZjk4NzA4OSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGYyMmExY2I2MTVlMzMxZGUzYzlkNTNjZjI5ZjExZTU3ZWVjMDYzMmMwM2NmYzViYWMzMmYwZTM3NDQwMjFiOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2E2MzQ3ZTM4MDc0MjY0OWFjODNlNjVhMTE3ODkxNWZjODBjMTgwNWU4NTIwZTEzZDg5MDU4MjM1ZWJiOWM2YyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_61c952ab5ca442968a24088f848f2a26",
+      "statement": "Only the frontend service publishes a host port; backend and client stay on the internal compose network.",
+      "evidence": [
+        {
+          "resource": "repo://compose.yaml",
+          "version": "repo-file-v1:sha256:272b1095fe275a56751e3d73d9ee696bb8cd2b6f9940939ea26cb955e04d35c3"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.9.0",
+    "at": "2026-11-09T18:31:04.450Z"
+  }
+}

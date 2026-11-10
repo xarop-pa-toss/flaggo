@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:8cae6c1b62ca61a07ea63215161608663f323d0cf811df1bb47d983dd2c167e6",
+  "claims": [
+    {
+      "id": "claim_3da97b41a3f54626949310708fe9bb3f",
+      "statement": "Backend startup selects memory or postgres store; on postgres failure it runs in degraded mode with readiness false.",
+      "evidence": [
+        {
+          "resource": "repo://cmd/flaggo/main.go#L55-L95",
+          "version": "repo-lines-v1:sha256:42064377dd716145fbbff0804450051e7d3f383d880d128cdd8acec8401c58c4:eyJzZWxlY3RlZExpbmVDb3VudCI6NDEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYwMmE0ZmMyZWY4ZDNjMjcxNWUzZjlhMmFhNmZlMmFkOTdjYzNiYzk3M2Y0NTE0YWQ5Mjc4YzQxMTgyYTM0MmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwM2I0N2FlNWRkNzk2OTZiZjg1ZDJlZTcyYzcxZDVmNmNhYzJiNTlkMDgwN2QwZjI4ODExODUxZmRkNDE4ODgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE4YTMyNGFjM2ZlZmM0Yjk1NWJkZDgwZTEzNjkyOWU4MmVhODNkMjdmOWQzODgyZTRjZjVhMWFhMWFmZmYwMzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjljYmZmMDYwYmY2YzFlY2I4ZjY5Njc2MjYxMjhlNjU5ZTg4YmJlNThhNWU1MzIyOWUyY2NjNTJmZWE2MTc5NWIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4739c1282176469d941002663d31a863",
+      "statement": "On SIGINT/SIGTERM the backend sets readiness false, calls server.Shutdown with ShutdownTimeout, then closes the store.",
+      "evidence": [
+        {
+          "resource": "repo://cmd/flaggo/main.go#L105-L135",
+          "version": "repo-lines-v1:sha256:2d951a817c36331a7106d407b490b25f3fefdd9d5e72d0296a82c5b4ce95558a:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMxZDFiOWIzZjIzODc1ZWM1NDdiZTY5MmU2YWUyNjA2MjVkNmJiYzYxMTRiM2IyNzZiMzZiMWY3NWNmOThlOGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQzMGQxMDAwZmJmN2VhYmM4MTBkNDg1MGFkOTMxNmUyMTZiZjdhNjRmNzZmYzEzNjcwZjI0MjE5MjgwYmFmODkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRlNmJiZGNiZThhM2I0ZThiYTMyZGQzNDc4ZGQwYTBkMWEwZDI1YWMyN2Y1ZjI1YTkyZjUyMjc2Y2IzYzgwNmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUzOGZhZWRjZmU5ZDBjMzIwNjA4ZDgyM2ZlZDg5MmZhNDhjY2E1NDQ5NTJlYzBmM2M5YzY4NDBkNGNiNzU3MGMifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.9.0",
+    "at": "2026-11-09T18:31:04.450Z"
+  }
+}

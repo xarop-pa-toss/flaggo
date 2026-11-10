@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:aaa30ce10dce6046879f8fbe28c31fce12451fb88bf5b38374b3407b62b35af2",
+  "claims": [
+    {
+      "id": "claim_50a655a48d084fba83c3cc5bdd1fb9be",
+      "statement": "Flaggo ships three binaries from one Go module: control plane backend, frontend gateway, and data plane client example.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md",
+          "version": "repo-file-v1:sha256:6f3adcf441be6115bb25f987c91e3b5ab659b144e50da67eeb1780eb09c8e1a1"
+        },
+        {
+          "resource": "repo://go.mod",
+          "version": "repo-file-v1:sha256:e1bd72bcb28e4dbedae8d055926a556fd2d3338fa9bc90348d8cbf0cb9f79072"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.9.0",
+    "at": "2026-11-09T18:31:04.450Z"
+  }
+}

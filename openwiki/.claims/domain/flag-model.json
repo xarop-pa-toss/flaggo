@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:6967c97353a8649b0e7d91cbb0a30641bca74129a5dd1acc448329be87325c37",
+  "claims": [
+    {
+      "id": "claim_d6d04920851c4c05bac8b175a69d0542",
+      "statement": "Flag validation requires a non-empty Name and RolloutPercent in [0,100], returning ErrInvalidName or ErrInvalidRollout otherwise.",
+      "evidence": [
+        {
+          "resource": "repo://internal/model/flag.go",
+          "version": "repo-file-v1:sha256:1f779dc193f921e003f8ed6cf2e12ba50e5c207b891c1e2a076a30a1d3d32f55"
+        }
+      ]
+    },
+    {
+      "id": "claim_1020dce782eb44f3b710563a98e6be53",
+      "statement": "Sentinel errors ErrNotFound and ErrAlreadyExists are used by stores and mapped to 404/409 by handlers.",
+      "evidence": [
+        {
+          "resource": "repo://internal/http/flags.go#L40-L120",
+          "version": "repo-lines-v1:sha256:9ba3994f3d27700c018260fea2686e3180d6ddb329984e1245cc685cea476036:eyJzZWxlY3RlZExpbmVDb3VudCI6ODEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY3Y2RhODJkYTYwNjIzOGUwNWU2MjM5OTU2OWM1ZWUwMzk5MzQxOTY0OGFlNWQ0M2EyYmY4Y2Q2MzQ3ZjgyNjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM2NmEzNDI0MWRmZDdkZTIyMzg2NTY3ZDE1ZWUxN2RlZWIyZmY5NGY0YjExMzQwMWVhNzY1MzJkMmEwZDk1N2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY3NmMyNmNiMGRkYTc1M2UxM2ZiMzU1OTJlMGJhMzgwZjdkZjAwMGU5OWQzZmZkNzNjNzVjODk0YmQ4YzkwOWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE0NDA0YmIyMjBhMDVjNjFlZTU3NWExMjAwYmQxODcyMmIwODYxZDI3MGM4NmM3MjBlYmI3ZjIyOGUwYzEyNDkifQ"
+        },
+        {
+          "resource": "repo://internal/model/errors.go",
+          "version": "repo-file-v1:sha256:31f1e14bca14686e1f3a7f18e5b5d3550d282f98605c865731fd577da903172b"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.9.0",
+    "at": "2026-11-09T18:31:04.450Z"
+  }
+}

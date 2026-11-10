@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:910770d814c1b0cb09dae07d754e1f4d31bcef5ca506e1a3bd2cd59672050077",
+  "claims": [
+    {
+      "id": "claim_872b888b48304ff78c7df6a26585d450",
+      "statement": "All three Dockerfiles use a multi-stage build with golang:1.27.2-alpine builder and gcr.io/distroless/static-debian12:nonroot runtime running as UID 65532.",
+      "evidence": [
+        {
+          "resource": "repo://Dockerfile.backend",
+          "version": "repo-file-v1:sha256:cdb2cb5b9c4c247ec962d5ffe7b1def7c6a19cace5b94bddfcd0251793b25f13"
+        },
+        {
+          "resource": "repo://Dockerfile.client",
+          "version": "repo-file-v1:sha256:9f9721522c4f9b396dfefacd47ed602ec66898f13849d534b16078923a004ffc"
+        },
+        {
+          "resource": "repo://Dockerfile.web",
+          "version": "repo-file-v1:sha256:5167719502aeb6ba529446684058304c668fc4f9a4ad3c497922c68406a4dd7a"
+        }
+      ]
+    },
+    {
+      "id": "claim_aa255688023c4b6a9f3e66f2d1c68d75",
+      "statement": "In compose.yaml only the frontend service publishes a host port (8080); backend and client remain on the private network.",
+      "evidence": [
+        {
+          "resource": "repo://compose.yaml",
+          "version": "repo-file-v1:sha256:272b1095fe275a56751e3d73d9ee696bb8cd2b6f9940939ea26cb955e04d35c3"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.9.0",
+    "at": "2026-11-09T18:31:04.450Z"
+  }
+}

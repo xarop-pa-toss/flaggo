@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:ecfd4b2743c3a8f5f1c56ced926607dd71cc60538ee1f83e23397db754d6bc62",
+  "claims": [
+    {
+      "id": "claim_27ad3763476545f69e35e2867c2db343",
+      "statement": "Store interface defines Migrate, Create, Get, List, Update, Delete, Close; MemoryStore and PostgresStore both implement it.",
+      "evidence": [
+        {
+          "resource": "repo://internal/store/memory.go",
+          "version": "repo-file-v1:sha256:fa0f48375a364ed141d781bb91c590701b747126d1aa48d2556b982fc311ba92"
+        },
+        {
+          "resource": "repo://internal/store/postgres.go",
+          "version": "repo-file-v1:sha256:7df3f9db4613e9321ddbc4d64b6ad3112249dbcc190605e729519ece4d9208a6"
+        },
+        {
+          "resource": "repo://internal/store/store.go",
+          "version": "repo-file-v1:sha256:4f1d96cc7c26e3db235bc94ccb19ec3ba790405b48c6a2dbc5cebabc4a728685"
+        }
+      ]
+    },
+    {
+      "id": "claim_d0fa7236de32458e840fbe056552fd7d",
+      "statement": "PostgresStore maps unique violations to ErrAlreadyExists and pgx.ErrNoRows to ErrNotFound.",
+      "evidence": [
+        {
+          "resource": "repo://internal/store/postgres.go",
+          "version": "repo-file-v1:sha256:7df3f9db4613e9321ddbc4d64b6ad3112249dbcc190605e729519ece4d9208a6"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.9.0",
+    "at": "2026-11-09T18:31:04.450Z"
+  }
+}

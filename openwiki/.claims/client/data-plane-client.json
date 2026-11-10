@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:97600f08ea64ab1d6968bc56b2d634d93c6bd601e0b5cc11c14b3c73b0eb7084",
+  "claims": [
+    {
+      "id": "claim_54545ba1b154497a8e1f67d45714542f",
+      "statement": "The data plane client polls the control plane and evaluates flags locally in memory, printing CHANGE lines on state flips without restarting.",
+      "evidence": [
+        {
+          "resource": "repo://examples/client/main.go",
+          "version": "repo-file-v1:sha256:b5a4978eebdb034d2f05c25421d0626ce9a7d75be7fa5c385191c65d94168b94"
+        }
+      ]
+    },
+    {
+      "id": "claim_dfe501b24fb448a4b24b986bad365809",
+      "statement": "Evaluation is performed by internal/eval.Evaluate using kill switch, enabled state, and deterministic rollout by user key.",
+      "evidence": [
+        {
+          "resource": "repo://internal/eval/eval.go",
+          "version": "repo-file-v1:sha256:f5c7ce1720ca4a6accfa26f460973a4adb3c39950182e878df178a07ae3f871d"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.9.0",
+    "at": "2026-11-09T18:31:04.450Z"
+  }
+}

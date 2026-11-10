@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:bdf97a9a0665b5cfa7be00ceb2731aad7c8be123302b3c5b655f721b2369481a",
+  "claims": [
+    {
+      "id": "claim_75985a2c557448fc9bb246f0252c1c14",
+      "statement": "The frontend proxy strips the /api prefix before forwarding to the backend and propagates the request id via X-Request-ID.",
+      "evidence": [
+        {
+          "resource": "repo://internal/web/server.go#L88-L115",
+          "version": "repo-lines-v1:sha256:322be30ab13a425c3c195da6b46b246e7cf5a4d00552066efc840b13f7dd9e59:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNlNDk1Mjk1NTI0Mzk2NTk1ZjBlNTRjNjA0ZDMyMGI0NTM3MGEzM2Y1YjNmZDhiNDYwM2IyOGQ5Yzc3ZGE5ZmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg2MDM0ZmJiNWNjNWQyMTRhN2NhMTA2MmQ4NGIzYjI3YjgzZjQ2Mjc2NDFjZmZkYWNjNDJiY2Q2ZTEyZTEyZjQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM2NjQ4M2E4ZGRiMDU2YjIyMGEzZGFmZTYxM2IwODM3ZjBkMGYwMzE4MjIzZmMzZGZlMDI5NWZjZjZhZTE4MmMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ec87e8af67ea42c7a23fa1d6d4f75a8f",
+      "statement": "When the backend is unreachable the gateway returns 502 Bad Gateway with a JSON error body.",
+      "evidence": [
+        {
+          "resource": "repo://internal/web/server.go#L108-L118",
+          "version": "repo-lines-v1:sha256:417f7c7dbf33f4f987c840238d70d200ad2878a8e46d59248577d35f70090773:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE2ODQ5YTFkM2ZiMTQ2NDNjMjUzOTE3MzgwMzk0NmExMzQyYzU0MGZiZjZiN2Y2OTViMDg5OTNmMDZjNmE2OWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY3Y2RhODJkYTYwNjIzOGUwNWU2MjM5OTU2OWM1ZWUwMzk5MzQxOTY0OGFlNWQ0M2EyYmY4Y2Q2MzQ3ZjgyNjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY2ZDAwMDA4YWNiMjE3YzA5MzZhNWE3MTNlYmZmZGRkMDJmM2Q0YzVmMDY1YjVhYTMwNWFhNTRiYzhkNGVlM2UiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRhYmE4ZmJjNjhkZDc2NmQ4MDI4MmY2NGRiNzdiNDA1ZmJkMzg3NmQ3NmQzMGIzMjljMmNkZjA3YWI5M2Q3M2MifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.9.0",
+    "at": "2026-11-09T18:31:04.450Z"
+  }
+}

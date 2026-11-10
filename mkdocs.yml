@@ -1,0 +1,42 @@
+site_name: Flaggo Wiki
+site_description: Documentation for the Flaggo feature-flag control plane.
+site_url: https://flaggo.xarop.link/
+docs_dir: openwiki
+site_dir: site
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - search.suggest
+    - search.highlight
+  palette:
+    - scheme: default
+      primary: indigo
+
+plugins:
+  - search
+
+nav:
+  - Home: quickstart.md
+  - Architecture:
+      - Overview: architecture/overview.md
+      - Request Flow: architecture/request-flow.md
+  - API:
+      - Control Plane API: api/control-plane-api.md
+      - Middleware: api/middleware.md
+  - Domain:
+      - Flag Model: domain/flag-model.md
+      - Flag Evaluation: evaluation/flag-evaluation.md
+  - Storage: storage/storage-layer.md
+  - Frontend: frontend/gateway.md
+  - Client: client/data-plane-client.md
+  - Configuration: configuration/environment.md
+  - Runtime: runtime/lifecycle.md
+  - Operations: operations/health-and-readiness.md
+  - Observability: observability/metrics-and-logging.md
+  - Build:
+      - Containerization: build/containerization.md
+      - CI Pipeline: build/ci-pipeline.md
+  - Testing: testing/test-strategy.md

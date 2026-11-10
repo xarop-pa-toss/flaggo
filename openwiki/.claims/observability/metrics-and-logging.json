@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:116606719d95ef40eab716f466c8eea417d103c42b656208ff7e02e2784a8c9d",
+  "claims": [
+    {
+      "id": "claim_2df8afd259ce4ee1ba314696ac800136",
+      "statement": "Prometheus metrics flaggo_http_requests_total and flaggo_http_request_duration_seconds are recorded per request with method/path/status labels.",
+      "evidence": [
+        {
+          "resource": "repo://internal/http/middleware/middleware.go",
+          "version": "repo-file-v1:sha256:9ace5838114eb3c73300edb055b2f845d6d2ac0cb73978922c59aeeda106618a"
+        },
+        {
+          "resource": "repo://internal/observability/metrics.go",
+          "version": "repo-file-v1:sha256:6a006f76a89605070a2caeb47107afeca33b364caa288cd0cd4ec996f7ad09b2"
+        }
+      ]
+    },
+    {
+      "id": "claim_150fabefbdab4de88b200ba2393c4b6e",
+      "statement": "Both services emit structured JSON logs via slog and correlate requests through X-Request-ID propagated from gateway to backend.",
+      "evidence": [
+        {
+          "resource": "repo://cmd/flaggo/main.go",
+          "version": "repo-file-v1:sha256:82748cf388941153b070cdd3b82a3a982076714356b5b06e4c70ef0fbe689609"
+        },
+        {
+          "resource": "repo://internal/web/server.go#L95-L125",
+          "version": "repo-lines-v1:sha256:33866133b0c292059201ae086578f7583fdb5fb62ce199fd58dfc5428e6a4dbc:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjMWZiYTIxYzM0ODdiZTZjMmYzYmI4NTc1ZjRiMDVhMjFmZGQ1NWQ4YzkwMjIzMTViZWJmZmQxMWMwZWY3NWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZlMWI0OWRjNzJmNjMyNjNkYzRmODFkZDIxZGYzZWRiZmU2NWU5NjVlN2FmMjhjNDM4OGFmMjc0NThlZTYwY2YiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVmNzZlZTUzM2U1YjdkNDdjMWZiYjVmZjYyOTU5MjRhZGU2YjgzODE5MTE1NzE1Y2YwNzVlYTQ1N2NlMWMxN2QiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAzYTRlNTRmMzdlNzFmN2UyMDM3NmU3YjAxMjM1Y2NlYTk5MDUxZjA3YWFiZWQwNTE4MGU0ZTU4ODA3YTQ2MWUifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.9.0",
+    "at": "2026-11-09T18:31:04.450Z"
+  }
+}

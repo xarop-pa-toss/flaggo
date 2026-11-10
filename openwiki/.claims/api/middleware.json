@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:b0db94aeb119304fb4635a18e845638804c2e052a2472d09c5276d4b31e1a65e",
+  "claims": [
+    {
+      "id": "claim_77dedcfcfd9049d8bfa63bad3520a976",
+      "statement": "Middleware is applied in the order RequestID, Recovery, Logging, Metrics around the mux in both backend and frontend routers.",
+      "evidence": [
+        {
+          "resource": "repo://internal/http/router.go#L24-L33",
+          "version": "repo-lines-v1:sha256:525502ec1713cd822cc3835d4931d2fc49bef8ce9bd66bdc3c8b0909482baf46:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM0N2JlNmMyOWZlNmE4OTk4OGYxNDcwZWEwZGViMjg5M2UwNmVmYjllMTQ3ZGUxNmU1Zjc4NjViOGI1YWFlZjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBhNzRjYTE1ZmM4ZjJjMDBiNGMzNTA3MTIyYjc0ZGY3MDAzZGQ0Mjg2YjU4MDI3YTRkYWQ1MmY0NDRmMThmOTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY2ZWFkODY2YmExMzZhNDQ0MzYyNjQ5OGYzYmJkNDk2NmY2M2I3MzEwY2M1MTFhMjMwMDVjNTNlZGZjNjE5NzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZiYjM0NDQ4ZmI5OGI4MGM0NDUyNjg2Y2Q2ODA0MmJiZDgzOGYwMTJkYWE4YTNlYzQ2ZTA2NTAzNDQ5ZWE1ZDIifQ"
+        },
+        {
+          "resource": "repo://internal/web/server.go#L60-L75",
+          "version": "repo-lines-v1:sha256:a6fab3616e82d9f0295ce23ae5d744d62ecc6c7cedf9a74785955cea2b524ccb:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY3Y2RhODJkYTYwNjIzOGUwNWU2MjM5OTU2OWM1ZWUwMzk5MzQxOTY0OGFlNWQ0M2EyYmY4Y2Q2MzQ3ZjgyNjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY0ZWZjNDk0MThkMjZkY2YxMjliMjJhNmFhMjExMDhjZWVjMzc2NzdhMzJkMDhlOWQ1ZmVlMzVkZGE2NmJiOWQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI2NGM4ZTcxNjM3OGM5NGU3NzMwY2FhM2FiODM3N2JhMTg2ZDAzNTM2MzVjZmY0ZWM2MWU5NTUzNTFlNzEyYTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIyMDljZmVlMjQ4YzUwYmUyMjQ5YTRmYzFkMTQ0YWI0MWYwMWVjZTdlZjlkNDY5YTQxYmJkYTMzNTk4ZWJkMjIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f17c2c0fdd28458db7f7f507fc582fcf",
+      "statement": "The frontend gateway propagates the generated request id to the backend via X-Request-ID and strips the backend's echoed copy to avoid duplicate headers.",
+      "evidence": [
+        {
+          "resource": "repo://internal/web/server.go#L95-L125",
+          "version": "repo-lines-v1:sha256:33866133b0c292059201ae086578f7583fdb5fb62ce199fd58dfc5428e6a4dbc:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjMWZiYTIxYzM0ODdiZTZjMmYzYmI4NTc1ZjRiMDVhMjFmZGQ1NWQ4YzkwMjIzMTViZWJmZmQxMWMwZWY3NWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZlMWI0OWRjNzJmNjMyNjNkYzRmODFkZDIxZGYzZWRiZmU2NWU5NjVlN2FmMjhjNDM4OGFmMjc0NThlZTYwY2YiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVmNzZlZTUzM2U1YjdkNDdjMWZiYjVmZjYyOTU5MjRhZGU2YjgzODE5MTE1NzE1Y2YwNzVlYTQ1N2NlMWMxN2QiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAzYTRlNTRmMzdlNzFmN2UyMDM3NmU3YjAxMjM1Y2NlYTk5MDUxZjA3YWFiZWQwNTE4MGU0ZTU4ODA3YTQ2MWUifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.9.0",
+    "at": "2026-11-09T18:31:04.450Z"
+  }
+}

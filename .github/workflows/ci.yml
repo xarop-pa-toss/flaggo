@@ -18,11 +18,11 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
   
-      # Passo 2: Instalar Go 1.24 e ligar dependency caching
-      - name: Setup Go 1.24
+      # Passo 2: Instalar Go 1.27.2 e ligar dependency caching
+      - name: Setup Go 1.27.2
         uses: actions/setup-go@v5
         with:
-          go-version: '1.24'
+          go-version: '1.27.2'
           cache: true
   
       # Passo 3: Correr analise de codigo (linter)

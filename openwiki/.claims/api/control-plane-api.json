@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:11664fc36f1e50293614b1993b7de18034d2096438f4b6ee2adb36fb05273465",
+  "claims": [
+    {
+      "id": "claim_25937afa8100451da43fb24774b38d8c",
+      "statement": "The control plane registers flag routes only when a store is available; otherwise the process runs in degraded mode with healthz ok and readyz not ready.",
+      "evidence": [
+        {
+          "resource": "repo://cmd/flaggo/main.go#L55-L95",
+          "version": "repo-lines-v1:sha256:42064377dd716145fbbff0804450051e7d3f383d880d128cdd8acec8401c58c4:eyJzZWxlY3RlZExpbmVDb3VudCI6NDEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYwMmE0ZmMyZWY4ZDNjMjcxNWUzZjlhMmFhNmZlMmFkOTdjYzNiYzk3M2Y0NTE0YWQ5Mjc4YzQxMTgyYTM0MmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwM2I0N2FlNWRkNzk2OTZiZjg1ZDJlZTcyYzcxZDVmNmNhYzJiNTlkMDgwN2QwZjI4ODExODUxZmRkNDE4ODgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE4YTMyNGFjM2ZlZmM0Yjk1NWJkZDgwZTEzNjkyOWU4MmVhODNkMjdmOWQzODgyZTRjZjVhMWFhMWFmZmYwMzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjljYmZmMDYwYmY2YzFlY2I4ZjY5Njc2MjYxMjhlNjU5ZTg4YmJlNThhNWU1MzIyOWUyY2NjNTJmZWE2MTc5NWIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4aaf15679b944433b00eac681e977247",
+      "statement": "Flag creation returns 409 Conflict on duplicate names and 400 on validation failure; missing flags on get/update/delete/rollout return 404.",
+      "evidence": [
+        {
+          "resource": "repo://internal/http/flags.go#L40-L120",
+          "version": "repo-lines-v1:sha256:9ba3994f3d27700c018260fea2686e3180d6ddb329984e1245cc685cea476036:eyJzZWxlY3RlZExpbmVDb3VudCI6ODEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY3Y2RhODJkYTYwNjIzOGUwNWU2MjM5OTU2OWM1ZWUwMzk5MzQxOTY0OGFlNWQ0M2EyYmY4Y2Q2MzQ3ZjgyNjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM2NmEzNDI0MWRmZDdkZTIyMzg2NTY3ZDE1ZWUxN2RlZWIyZmY5NGY0YjExMzQwMWVhNzY1MzJkMmEwZDk1N2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY3NmMyNmNiMGRkYTc1M2UxM2ZiMzU1OTJlMGJhMzgwZjdkZjAwMGU5OWQzZmZkNzNjNzVjODk0YmQ4YzkwOWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE0NDA0YmIyMjBhMDVjNjFlZTU3NWExMjAwYmQxODcyMmIwODYxZDI3MGM4NmM3MjBlYmI3ZjIyOGUwYzEyNDkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_6af19b3412d645af876153e971a11a85",
+      "statement": "Kill switch toggles the current value when no kill_switch field is supplied in the request body.",
+      "evidence": [
+        {
+          "resource": "repo://internal/http/flags.go#L150-L180",
+          "version": "repo-lines-v1:sha256:9dc837abad6df28a32e8c5b681c04a26fc399f4a2296bc3f5482147347426bfc:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM2NmEzNDI0MWRmZDdkZTIyMzg2NTY3ZDE1ZWUxN2RlZWIyZmY5NGY0YjExMzQwMWVhNzY1MzJkMmEwZDk1N2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY3Y2RhODJkYTYwNjIzOGUwNWU2MjM5OTU2OWM1ZWUwMzk5MzQxOTY0OGFlNWQ0M2EyYmY4Y2Q2MzQ3ZjgyNjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBmYWY2ODVjNDhmZWIzZTI5MWY5ODE0Y2MxNzRlMTUxZjcxZGY2OGU2NTVmNzc1ZjQ5NmJhNTM5MzcyNWUyMWIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhlMjBlNTBmNDM1MTRiYmZhYWJmNDViZTlkYTNiNGYyOGEzMDA1NmM4MzhmZWFhOGU5Yzc0ODIyZjM3Mjk0NjEifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.9.0",
+    "at": "2026-11-09T18:31:04.450Z"
+  }
+}

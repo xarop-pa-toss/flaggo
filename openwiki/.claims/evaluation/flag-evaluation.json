@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:306cad48d1b526a6b1b859d32f116bbf5d47248a82c56c923839171ee5892278",
+  "claims": [
+    {
+      "id": "claim_f3e19345788f40abb902b77f107aed36",
+      "statement": "Evaluate returns false when KillSwitch is true or Enabled is false, regardless of rollout percentage.",
+      "evidence": [
+        {
+          "resource": "repo://internal/eval/eval.go",
+          "version": "repo-file-v1:sha256:f5c7ce1720ca4a6accfa26f460973a4adb3c39950182e878df178a07ae3f871d"
+        }
+      ]
+    },
+    {
+      "id": "claim_cfb1967a5d5f44cb908aeae2c79d8c7c",
+      "statement": "Rollout is applied deterministically by hashing name:userKey with FNV-32a and comparing bucket < RolloutPercent.",
+      "evidence": [
+        {
+          "resource": "repo://internal/eval/eval.go",
+          "version": "repo-file-v1:sha256:f5c7ce1720ca4a6accfa26f460973a4adb3c39950182e878df178a07ae3f871d"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.9.0",
+    "at": "2026-11-09T18:31:04.450Z"
+  }
+}

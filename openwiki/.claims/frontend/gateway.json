@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:04014537af650ecf7e90e4983ecde2134c9af63b298c5a7b1da8b5087636e89d",
+  "claims": [
+    {
+      "id": "claim_463b1e9e39744ffcbd7bbf5eafef8798",
+      "statement": "The frontend gateway reverse-proxies /api/* to the backend, stripping the /api prefix and propagating X-Request-ID.",
+      "evidence": [
+        {
+          "resource": "repo://internal/web/server.go#L80-L125",
+          "version": "repo-lines-v1:sha256:380fe30a5fed17684d6ab0238bc07311201e046f0804d4b5735603595389a9dd:eyJzZWxlY3RlZExpbmVDb3VudCI6NDYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZlMWI0OWRjNzJmNjMyNjNkYzRmODFkZDIxZGYzZWRiZmU2NWU5NjVlN2FmMjhjNDM4OGFmMjc0NThlZTYwY2YiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJiYzA4MGVlMWJlZTViZGE1MWQ3MGE0MmZkNDEzZTllYjkzZDc0YWI2NDY0NmJhMTk3NmQxZTAyMGViMThkMmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAzYTRlNTRmMzdlNzFmN2UyMDM3NmU3YjAxMjM1Y2NlYTk5MDUxZjA3YWFiZWQwNTE4MGU0ZTU4ODA3YTQ2MWUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_59669fedaf804102a64159ce1cac39f4",
+      "statement": "Frontend /readyz returns 503 unless the backend /readyz probe succeeds within the configured timeout.",
+      "evidence": [
+        {
+          "resource": "repo://internal/web/server.go#L50-L70",
+          "version": "repo-lines-v1:sha256:7342a2a0397b489e778b20b1fc04c6872d9497d1a8faf7abdc444bbae5379f33:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI0MGM1YTE2NDQ4MDc0OWRkNTU0OTc2ZWU4NjRlYmZlOTUxMWY5YzQ2Y2E0ZDdiMTc1NmZiNTI2NDRkNTJmODEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI2OGFiYmE1NTYwODQ0MTU1MDVmOTU3NmQ0OGI4MDA0NWYyMWU4MGM2MzI4M2Q3NTdhN2JkNDllNjUyOGQzZjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU5NjU2ZmYyNjg1YWIyNGQxN2UzY2I1YThkNjg5OWViYWUxMmMyMWExMjU5MmNlNjRmODlkZjY4ZDhmNjQ5OWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQzYjAzOGIxMDI1ZjkzYmZlZTc4OGRiZWFiZmIyZWE1ZGFkZmViMmQxNjc4YjQxNTk4ODA0YjM0ZjUxM2E5MTcifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.9.0",
+    "at": "2026-11-09T18:31:04.450Z"
+  }
+}
