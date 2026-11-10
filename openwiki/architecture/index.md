@@ -1,4 +1,4 @@
 # Files
 
-- [Architecture Overview](overview.md) - Flaggo is a Go feature-flag control plane with a management dashboard gateway and a polling data-plane client, shipped as three binaries from one module.
+- [Architecture Overview](overview.md) - High-level system architecture of Flaggo, detailing its control plane backend, frontend API gateway, data-plane polling client, and pluggable persistence.
 - [Request Flow](request-flow.md) - How an HTTP request travels from the browser through the frontend gateway reverse proxy into the backend, with middleware correlation.

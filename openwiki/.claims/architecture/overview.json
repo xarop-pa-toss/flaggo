@@ -1,26 +1,14 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:3f735d48e261d45eb77ebdbdfc572b4432de078250a9d0029e6accb1741414c6",
+  "pageVersion": "sha256:70b17ab2fe979262795e349092626b1f92f77444901d6b22f0c3f1733e2f5180",
   "claims": [
     {
-      "id": "claim_4060525791d94197a6bfff50fd81363e",
-      "statement": "Flaggo is a single Go module producing three binaries: control plane backend, frontend gateway, and data plane client.",
+      "id": "claim_b499304b26744a71bc63509b21614ad0",
+      "statement": "Flaggo is structured around three primary binaries within a single Go module: the control plane backend, the frontend API gateway dashboard, and the data-plane polling client.",
       "evidence": [
         {
-          "resource": "repo://AGENTS.md",
-          "version": "repo-file-v1:sha256:f174e82741dbec1f718cf9dfd6de6c5abfafafd09f2a3d3029ddcc0f991ed216"
-        },
-        {
-          "resource": "repo://cmd/flaggo-web/main.go",
-          "version": "repo-file-v1:sha256:12f987c1e51b77c09557b92c4e17254103567cb08c308e9cd82c54a381fb4381"
-        },
-        {
-          "resource": "repo://cmd/flaggo/main.go",
-          "version": "repo-file-v1:sha256:82748cf388941153b070cdd3b82a3a982076714356b5b06e4c70ef0fbe689609"
-        },
-        {
-          "resource": "repo://examples/client/main.go",
-          "version": "repo-file-v1:sha256:b5a4978eebdb034d2f05c25421d0626ce9a7d75be7fa5c385191c65d94168b94"
+          "resource": "repo://README.md",
+          "version": "repo-file-v1:sha256:a5277cf33556ae6fb5799ae4cda01475a12f64438d40257c1f2ba41df1f0c678"
         },
         {
           "resource": "repo://go.mod#L1-L3",
@@ -29,9 +17,55 @@
       ]
     },
     {
-      "id": "claim_61c952ab5ca442968a24088f848f2a26",
-      "statement": "Only the frontend service publishes a host port; backend and client stay on the internal compose network.",
+      "id": "claim_8f738877790e4a9ba3982b7b9d722e78",
+      "statement": "The control plane backend exposes feature flag CRUD, rollouts, and kill switches while supporting pluggable Postgres or in-memory persistence.",
       "evidence": [
+        {
+          "resource": "repo://README.md",
+          "version": "repo-file-v1:sha256:a5277cf33556ae6fb5799ae4cda01475a12f64438d40257c1f2ba41df1f0c678"
+        },
+        {
+          "resource": "repo://cmd/flaggo/main.go",
+          "version": "repo-file-v1:sha256:82748cf388941153b070cdd3b82a3a982076714356b5b06e4c70ef0fbe689609"
+        }
+      ]
+    },
+    {
+      "id": "claim_98ed618d28164f5bb977d8cc8f27b0d5",
+      "statement": "The control plane frontend provides the management UI and reverse-proxies API requests to the backend, serving as the sole container component publishing a host port.",
+      "evidence": [
+        {
+          "resource": "repo://cmd/flaggo-web/main.go",
+          "version": "repo-file-v1:sha256:12f987c1e51b77c09557b92c4e17254103567cb08c308e9cd82c54a381fb4381"
+        },
+        {
+          "resource": "repo://compose.yaml",
+          "version": "repo-file-v1:sha256:272b1095fe275a56751e3d73d9ee696bb8cd2b6f9940939ea26cb955e04d35c3"
+        }
+      ]
+    },
+    {
+      "id": "claim_43e2cbd8eb7e4174b73d85cb1468449f",
+      "statement": "Data-plane clients poll the backend and evaluate feature flags locally in memory using deterministic hashing for rollout percentages and instant kill switches.",
+      "evidence": [
+        {
+          "resource": "repo://README.md",
+          "version": "repo-file-v1:sha256:a5277cf33556ae6fb5799ae4cda01475a12f64438d40257c1f2ba41df1f0c678"
+        },
+        {
+          "resource": "repo://examples/client/main.go",
+          "version": "repo-file-v1:sha256:b5a4978eebdb034d2f05c25421d0626ce9a7d75be7fa5c385191c65d94168b94"
+        }
+      ]
+    },
+    {
+      "id": "claim_661e238d548043aaaf07b9870db76d1d",
+      "statement": "Services run on an isolated container network where storage can operate in persistent or degraded in-memory modes.",
+      "evidence": [
+        {
+          "resource": "repo://cmd/flaggo/main.go",
+          "version": "repo-file-v1:sha256:82748cf388941153b070cdd3b82a3a982076714356b5b06e4c70ef0fbe689609"
+        },
         {
           "resource": "repo://compose.yaml",
           "version": "repo-file-v1:sha256:272b1095fe275a56751e3d73d9ee696bb8cd2b6f9940939ea26cb955e04d35c3"
@@ -41,6 +75,6 @@
   ],
   "verification": {
     "by": "openwiki/0.9.0",
-    "at": "2026-11-10T11:19:27.436Z"
+    "at": "2026-11-10T11:51:15.631Z"
   }
 }
