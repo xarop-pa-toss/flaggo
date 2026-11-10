@@ -4,7 +4,7 @@ okf_version: "0.2"
 
 # Files
 
-- [Flaggo Quickstart](quickstart.md)
+- [Flaggo Quickstart & Task Routing](quickstart.md) - Developer onboarding, environment setup, and wiki task routing for the Flaggo feature flag platform.
 
 # Directories
 
