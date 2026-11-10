@@ -5,12 +5,18 @@ description: Flaggo is a Go feature-flag control plane with a management dashboa
 tags: [architecture, overview, components, monorepo]
 verified:
   - by: openwiki/0.9.0
-    at: 2026-11-09T18:31:04.450Z
+    at: 2026-11-10T11:19:27.436Z
 sources:
   - id: openwiki-source-8037e2358a2c4f9b2c722a11
     resource: repo://AGENTS.md
+  - id: openwiki-source-4cae579004db10634e547e3a
+    resource: repo://cmd/flaggo-web/main.go
+  - id: openwiki-source-693bc5f0b4443bd18cfa76b4
+    resource: repo://cmd/flaggo/main.go
   - id: openwiki-source-e201e686a785f09b6d899f0b
     resource: repo://compose.yaml
+  - id: openwiki-source-25b53892bc5b00be5d8f0155
+    resource: repo://examples/client/main.go
   - id: openwiki-source-7bd911fdd3026b7b031a01e3
     resource: repo://go.mod
 generated: { by: "pi", at: "2026-11-09T18:31:04.450Z" }
