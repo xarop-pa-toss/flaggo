@@ -30,6 +30,16 @@ jobs:
         # mermaid + jsdom are optional; they add high-fidelity validation of Mermaid diagrams. Remove if your wiki has none.
         run: npm install --global openwiki@0.9.0 mermaid@11.16.0 jsdom@29.1.1
 
+      - name: Debug secret
+        run: |
+          echo "GEMINI_API_KEY length: ${#GEMINI_API_KEY}"
+          echo "provider: $OPENWIKI_PROVIDER"
+          echo "model: $OPENWIKI_MODEL_ID"
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          OPENWIKI_PROVIDER: gemini
+          OPENWIKI_MODEL_ID: gemini-3.5-flash-lite
+         
       - name: Run OpenWiki
         id: openwiki
         continue-on-error: true
