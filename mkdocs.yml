@@ -1,6 +1,6 @@
 site_name: Flaggo Wiki
 site_description: Documentation for the Flaggo feature-flag control plane.
-site_url: https://flaggo.xarop.link/
+site_url: https://www.flaggo-wiki.xarop.link/
 docs_dir: openwiki
 site_dir: site
 
