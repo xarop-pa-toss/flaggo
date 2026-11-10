@@ -5,7 +5,7 @@ description: "Developer onboarding, environment setup, and wiki task routing for
 tags: ["quickstart", "onboarding", "task-routing", "development"]
 verified:
   - by: openwiki/0.9.0
-    at: 2026-11-10T11:19:27.436Z
+    at: 2026-11-10T11:51:15.631Z
 sources:
   - id: openwiki-source-8037e2358a2c4f9b2c722a11
     resource: repo://AGENTS.md
