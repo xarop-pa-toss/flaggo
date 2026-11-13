@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:70b17ab2fe979262795e349092626b1f92f77444901d6b22f0c3f1733e2f5180",
+  "pageVersion": "sha256:4ac1926822845527c272bbc12d4f6292e35022a2800f0656ced07f73f9402bb9",
   "claims": [
     {
       "id": "claim_b499304b26744a71bc63509b21614ad0",
@@ -11,8 +11,8 @@
           "version": "repo-file-v1:sha256:a5277cf33556ae6fb5799ae4cda01475a12f64438d40257c1f2ba41df1f0c678"
         },
         {
-          "resource": "repo://go.mod#L1-L3",
-          "version": "repo-lines-v1:sha256:c6ffaef454663d97a5c8637ad43871f7760526798d2cac4707f233b2b553138c:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNWJlODgyNDE4MGY1NzAwMzIyNzc1MzdkN2U5ZGVkOGE0ZThlYWQwYTVmNjcwZDVlZGMwYWYwYWIwZjk4NzA4OSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGYyMmExY2I2MTVlMzMxZGUzYzlkNTNjZjI5ZjExZTU3ZWVjMDYzMmMwM2NmYzViYWMzMmYwZTM3NDQwMjFiOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2E2MzQ3ZTM4MDc0MjY0OWFjODNlNjVhMTE3ODkxNWZjODBjMTgwNWU4NTIwZTEzZDg5MDU4MjM1ZWJiOWM2YyJ9"
+          "resource": "repo://go.mod",
+          "version": "repo-file-v1:sha256:e1bd72bcb28e4dbedae8d055926a556fd2d3338fa9bc90348d8cbf0cb9f79072"
         }
       ]
     },
@@ -32,15 +32,15 @@
     },
     {
       "id": "claim_98ed618d28164f5bb977d8cc8f27b0d5",
-      "statement": "The control plane frontend provides the management UI and reverse-proxies API requests to the backend, serving as the sole container component publishing a host port.",
+      "statement": "The control plane frontend provides the management UI and reverse-proxies API requests to the backend.",
       "evidence": [
+        {
+          "resource": "repo://README.md",
+          "version": "repo-file-v1:sha256:a5277cf33556ae6fb5799ae4cda01475a12f64438d40257c1f2ba41df1f0c678"
+        },
         {
           "resource": "repo://cmd/flaggo-web/main.go",
           "version": "repo-file-v1:sha256:12f987c1e51b77c09557b92c4e17254103567cb08c308e9cd82c54a381fb4381"
-        },
-        {
-          "resource": "repo://compose.yaml",
-          "version": "repo-file-v1:sha256:272b1095fe275a56751e3d73d9ee696bb8cd2b6f9940939ea26cb955e04d35c3"
         }
       ]
     },
@@ -60,21 +60,21 @@
     },
     {
       "id": "claim_661e238d548043aaaf07b9870db76d1d",
-      "statement": "Services run on an isolated container network where storage can operate in persistent or degraded in-memory modes.",
+      "statement": "Services run on shared or isolated runtime environments where storage can operate in persistent or degraded in-memory modes.",
       "evidence": [
+        {
+          "resource": "repo://README.md",
+          "version": "repo-file-v1:sha256:a5277cf33556ae6fb5799ae4cda01475a12f64438d40257c1f2ba41df1f0c678"
+        },
         {
           "resource": "repo://cmd/flaggo/main.go",
           "version": "repo-file-v1:sha256:82748cf388941153b070cdd3b82a3a982076714356b5b06e4c70ef0fbe689609"
-        },
-        {
-          "resource": "repo://compose.yaml",
-          "version": "repo-file-v1:sha256:272b1095fe275a56751e3d73d9ee696bb8cd2b6f9940939ea26cb955e04d35c3"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.9.0",
-    "at": "2026-11-10T11:51:15.631Z"
+    "at": "2026-11-13T15:53:50.497Z"
   }
 }
