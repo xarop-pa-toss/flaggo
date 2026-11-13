@@ -5,21 +5,19 @@ description: High-level system architecture of Flaggo, detailing its control pla
 tags: [architecture, overview, components, monorepo, control-plane, data-plane]
 verified:
   - by: openwiki/0.9.0
-    at: 2026-11-10T11:51:15.631Z
+    at: 2026-11-13T15:53:50.497Z
 sources:
   - id: openwiki-source-4cae579004db10634e547e3a
     resource: repo://cmd/flaggo-web/main.go
   - id: openwiki-source-693bc5f0b4443bd18cfa76b4
     resource: repo://cmd/flaggo/main.go
-  - id: openwiki-source-e201e686a785f09b6d899f0b
-    resource: repo://compose.yaml
   - id: openwiki-source-25b53892bc5b00be5d8f0155
     resource: repo://examples/client/main.go
   - id: openwiki-source-7bd911fdd3026b7b031a01e3
     resource: repo://go.mod
   - id: openwiki-source-23775c3de52f3ab95a13cb8b
     resource: repo://README.md
-generated: { by: "openwiki/0.9.0", at: "2026-11-10T11:51:15.631Z" }
+generated: { by: "openwiki/0.9.0", at: "2026-11-13T15:53:50.497Z" }
 ---
 
 # Architecture Overview
@@ -39,7 +37,7 @@ graph TD
 ```
 
 - **Control Plane Backend** (`cmd/flaggo`): Exposes the core REST API for feature flag CRUD operations, kill switches, and rollout percentage configurations. It handles health and readiness checks, emits Prometheus metrics, supports graceful shutdown, and abstracts persistence behind a pluggable storage interface [repo://cmd/flaggo/main.go, repo://README.md].
-- **Control Plane Frontend** (`cmd/flaggo-web`): Serves the management dashboard UI and acts as an API gateway that reverse-proxies `/api/*` requests to the backend. In containerized deployments, it is the sole service that publishes a host port [repo://cmd/flaggo-web/main.go, repo://compose.yaml].
+- **Control Plane Frontend** (`cmd/flaggo-web`): Serves the management dashboard UI and acts as an API gateway that reverse-proxies `/api/*` requests to the backend. In containerized deployments, it is the sole service that publishes a host port [repo://cmd/flaggo-web/main.go].
 - **Data Plane Client** (`examples/client`): Represents consuming applications. It periodically polls the backend API for flag definitions and evaluates feature states locally in memory per user key, printing real-time state transitions [repo://README.md, repo://examples/client/main.go].
 - **Postgres Store** (Optional): Provides durable relational storage. When configured via `STORE=memory`, the backend runs entirely in-memory, eliminating database dependencies for local development and testing [repo://cmd/flaggo/main.go, repo://README.md].
 
@@ -57,11 +55,10 @@ The repository is structured as a single Go module with shared packages under `i
 
 ## Runtime Topology & Isolation
 
-In containerized deployments defined by `compose.yaml`, services communicate over an isolated internal Docker network:
-- **`postgres`**: Relational database running PostgreSQL 16 with native health checks [repo://compose.yaml].
-- **`backend`**: Connects to Postgres and listens internally on port 8080 [repo://compose.yaml].
-- **`frontend`**: Exposes port `8090:8080` (or configured host port) to the host machine, proxying management traffic to the backend [repo://compose.yaml, repo://README.md].
-- **`client`**: Polls the backend container across the internal network [repo://compose.yaml].
+Services communicate over structured HTTP contracts and internal network routing:
+- **`backend`**: Processes REST API requests, maintains flag states via storage backends, and listens internally on port 8080 [repo://cmd/flaggo/main.go].
+- **`frontend`**: Exposes management ports to the host machine, proxying browser traffic (`/api/*`) to the backend [repo://cmd/flaggo-web/main.go, repo://README.md].
+- **`client`**: Polls the backend API endpoint to synchronize flag states for local evaluation [repo://README.md, repo://examples/client/main.go].
 
 ## Key Architectural Principles
 
@@ -74,5 +71,3 @@ In containerized deployments defined by `compose.yaml`, services communicate ove
 
 - [Request Flow](request-flow.md)
 - [Quickstart](../quickstart.md)
-- [Containerization](../build/containerization.md)
-- [Environment Configuration](../configuration/environment.md)

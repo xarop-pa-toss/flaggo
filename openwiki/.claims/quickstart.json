@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:5e32a59516e991c08e5e13d84fb4692bc8c518561c6aadbe4596f4c5ecccbc18",
+  "pageVersion": "sha256:caf8f258958aa1ae9ce2fcaa81b464be4772bab5b853cae3257474599e01450b",
   "claims": [
     {
       "id": "claim_50a655a48d084fba83c3cc5bdd1fb9be",
@@ -19,10 +19,40 @@
           "version": "repo-file-v1:sha256:e1bd72bcb28e4dbedae8d055926a556fd2d3338fa9bc90348d8cbf0cb9f79072"
         }
       ]
+    },
+    {
+      "id": "claim_1afa02ab970149e0994a022516fdd4f2",
+      "statement": "Flaggo provides a lightweight self-hosted feature flag platform consisting of a backend control plane API, frontend dashboard, and data plane client.",
+      "evidence": [
+        {
+          "resource": "repo://README.md",
+          "version": "repo-file-v1:sha256:a5277cf33556ae6fb5799ae4cda01475a12f64438d40257c1f2ba41df1f0c678"
+        }
+      ]
+    },
+    {
+      "id": "claim_06d7c343297f496d9f4affb29a64317e",
+      "statement": "Developers can run the stack locally either via script helper, manual multi-terminal execution with in-memory storage, or Docker Compose with PostgreSQL.",
+      "evidence": [
+        {
+          "resource": "repo://README.md",
+          "version": "repo-file-v1:sha256:a5277cf33556ae6fb5799ae4cda01475a12f64438d40257c1f2ba41df1f0c678"
+        }
+      ]
+    },
+    {
+      "id": "claim_7454b85f61f04284b535f3c01dfbbd57",
+      "statement": "Standard build and test workflows use Go commands including go build ./..., go vet ./..., and go test ./...",
+      "evidence": [
+        {
+          "resource": "repo://README.md",
+          "version": "repo-file-v1:sha256:a5277cf33556ae6fb5799ae4cda01475a12f64438d40257c1f2ba41df1f0c678"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.9.0",
-    "at": "2026-11-10T11:51:15.631Z"
+    "at": "2026-11-13T15:53:50.497Z"
   }
 }

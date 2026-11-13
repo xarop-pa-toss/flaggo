@@ -1,11 +1,11 @@
 ---
 type: "Guide"
-title: "Flaggo Quickstart & Task Routing"
-description: "Developer onboarding, environment setup, and wiki task routing for the Flaggo feature flag platform."
-tags: ["quickstart", "onboarding", "task-routing", "development"]
+title: "Quickstart Guide"
+description: "Quickstart guide and navigation entrypoint for developers exploring the Flaggo repository."
+tags: ["quickstart", "onboarding", "navigation", "development"]
 verified:
   - by: openwiki/0.9.0
-    at: 2026-11-10T11:51:15.631Z
+    at: 2026-11-13T15:53:50.497Z
 sources:
   - id: openwiki-source-8037e2358a2c4f9b2c722a11
     resource: repo://AGENTS.md
@@ -13,49 +13,50 @@ sources:
     resource: repo://go.mod
   - id: openwiki-source-23775c3de52f3ab95a13cb8b
     resource: repo://README.md
-generated: { by: "openwiki/0.9.0", at: "2026-11-10T11:19:27.436Z" }
+generated: { by: "openwiki/0.9.0", at: "2026-11-13T15:53:50.497Z" }
 ---
 
-# Quickstart & Task Routing
+# Quickstart Guide
 
 ## What is Flaggo?
 
-Flaggo is a lightweight, self-hosted feature flag and runtime configuration platform built in Go. It decouples deployment from release by providing a centralized Control Plane (backend API and management dashboard) where engineers can toggle features, adjust rollout percentages, and trigger instant kill switches in real time. Client applications (Data Plane) poll these rules and evaluate them locally in memory for zero downtime and zero restarts.
+Flaggo is a small, self-hosted Feature Flag platform. It decouples **deployment** from **release**: a Control Plane exposes an API to create flags, set rollout percentages, and trigger instant kill switches. Client applications (the Data Plane) poll the API and evaluate flags in memory — so you can change behaviour without restarting or redeploying anything.
 
-Three binaries are built from the Go module:
-- **Backend API (`cmd/flaggo`)**: Control plane backend managing flag CRUD, rollout percentages, and kill switches.
-- **Frontend Gateway (`cmd/flaggo-web`)**: Management dashboard UI combined with an `/api` reverse proxy to the backend.
-- **Data Plane Client (`examples/client`)**: Example client that polls the control plane, evaluates flags, and prints changes.
+The repository contains three primary components:
+- **Backend API (`cmd/flaggo`)**: Flag CRUD, rollout percentages, and kill switches.
+- **Frontend (`cmd/flaggo-web`)**: Dashboard UI plus an `/api` proxy to the backend.
+- **Client (`examples/client`)**: Data Plane example that polls flags, evaluates them, and prints changes.
 
-## Task Routing Map
+---
 
-Use this routing table to navigate the wiki based on your development or operational task:
+## Navigation Map
 
-| Task / Goal | Relevant Wiki Pages |
-|-------------|---------------------|
-| **Understand system architecture & request flows** | [Architecture Overview](architecture/overview.md), [Request Flow](architecture/request-flow.md) |
-| **Add or modify API endpoints** | [Control Plane API](api/control-plane-api.md), [HTTP Middleware](api/middleware.md), [Flag Domain Model](domain/flag-model.md) |
-| **Modify storage or persistence** | [Storage Layer](storage/storage-layer.md), [Health & Readiness](operations/health-and-readiness.md) |
-| **Change evaluation / rollout logic** | [Flag Evaluation](evaluation/flag-evaluation.md), [Flag Domain Model](domain/flag-model.md) |
-| **Configure environment variables** | [Environment Configuration](configuration/environment.md) |
-| **Run locally, containerize, or manage lifecycle** | [Containerization](build/containerization.md), [Runtime Lifecycle](runtime/lifecycle.md) |
-| **CI pipelines & test strategy** | [CI Pipeline](build/ci-pipeline.md), [Test Strategy](testing/test-strategy.md) |
-| **Operate, monitor, or debug** | [Health & Readiness](operations/health-and-readiness.md), [Metrics & Logging](observability/metrics-and-logging.md), [Frontend Gateway](frontend/gateway.md) |
-| **Data plane client development** | [Data Plane Client](client/data-plane-client.md) |
+Use the following documentation hierarchy to explore the OpenWiki knowledge base:
 
-## Development Setup & Running Locally
+| Domain / Topic | Wiki Page | Description |
+|----------------|-----------|-------------|
+| **Architecture** | [Architecture Overview](architecture/overview.md) | High-level architectural overview of the system, components, and data flows. |
+| **Configuration** | [Environment Configuration](configuration/environment.md) | Comprehensive reference for environment variables and configuration settings across backend, frontend, and client. |
 
-No database is required for local development; the backend defaults to an in-memory store when `STORE=memory` is specified.
+---
 
-### Option A: One Command (Background Stack)
+## Local Development & Running
+
+No external database is required for local development because the backend supports an in-memory store (`STORE=memory`).
+
+### Option 1: Using the Non-Docker Script
+
+Build and start the backend, dashboard, and client in the background using the helper script:
 
 ```sh
-./start.sh          # builds + starts backend, dashboard, client in the background
-./start.sh stop     # stops all three
+./start-non-docker.sh          # builds + starts backend, dashboard, client in the background
+./start-non-docker.sh stop     # stops all three
 ```
-Logs are written to `/tmp/opencode/`. Access the dashboard at **http://localhost:8090**.
+Logs are stored under `/tmp/opencode/`. Open the dashboard at **http://localhost:8090**.
 
-### Option B: Three Terminals
+### Option 2: Running in Three Terminals
+
+You can run each component in a separate terminal:
 
 **Terminal 1 — Backend API (port 8080):**
 ```sh
@@ -72,11 +73,26 @@ PORT=8090 BACKEND_URL=http://127.0.0.1:8080 go run ./cmd/flaggo-web
 CONTROL_PLANE_URL=http://127.0.0.1:8080 go run ./examples/client
 ```
 
-### Using PostgreSQL
+---
 
-To run with PostgreSQL persistence instead of memory:
+## Docker Compose Setup
+
+To run the complete containerized stack (including PostgreSQL persistence, backend, frontend dashboard, and client simulation):
+
 ```sh
-export DATABASE_URL=postgres://user:pass@localhost:5432/flaggo?sslmode=disable
-STORE=postgres go run ./cmd/flaggo
+docker compose up --build
 ```
-The `flags` table is initialized automatically upon startup.
+
+The frontend dashboard is accessible on port `8080` of the host machine.
+
+---
+
+## Building and Testing
+
+To build binaries, run code vetting, and execute tests across the module:
+
+```sh
+go build ./...
+go vet ./...
+go test ./...
+```
