@@ -1,7 +1,7 @@
 {
-  "updatedAt": "2026-11-13T15:54:22.538Z",
+  "updatedAt": "2026-11-21T15:54:06.483Z",
   "command": "update",
-  "gitHead": "b5447546b56f14713dd72c1578baf9e8c3cf787a",
+  "gitHead": "3a4a5667ad18fc138b01b75af1fe934510630bc6",
   "model": "gemini-3.5-flash-lite",
   "status": "complete",
   "language": "en"
