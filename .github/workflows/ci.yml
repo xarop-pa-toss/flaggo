@@ -5,8 +5,23 @@ name: Flaggo CI Pipeline
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - '**/*.md'
+      - 'docs/**'
+      - 'openwiki/**'
+      - 'mkdocs.yml'
+      - 'requirements.txt'
+      - '.github/workflows/docs-deploy.yml'
+      - '.github/workflows/openwiki-update.yml'
   pull_request:
     branches: [main]
+    paths-ignore:
+      - '**/*.md'
+      - 'docs/**'
+      - 'openwiki/**'
+      - 'mkdocs.yml'
+      - 'requirements.txt'
+  workflow_dispatch:
 
 # 3. Work Jobs
 jobs:
