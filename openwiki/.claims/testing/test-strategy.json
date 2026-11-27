@@ -1,21 +1,7 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:29e454930eb5a6520b0dbb6589c1d1a8025d5d805ad20fd5058b4bea265ad70c",
+  "pageVersion": "sha256:de33207009cd82c64a1db718868bb622efc730a288f61b386fcef5abd2b04306",
   "claims": [
-    {
-      "id": "claim_6304037033594049b22160d7281924d6",
-      "statement": "Handler and eval tests use the in-memory store so they run without Postgres; CI sets STORE=memory.",
-      "evidence": [
-        {
-          "resource": "repo://.github/workflows/ci.yml",
-          "version": "repo-file-v1:sha256:1da07f6555fc3859d15a34b43b000b8cd41f5b1b0e0dc0386b2c57e4c076eedc"
-        },
-        {
-          "resource": "repo://internal/http/flags_test.go",
-          "version": "repo-file-v1:sha256:4dbc641b3783527515b85573c4a2636b919e1a72ae884efe7eb2ef0dfe208e81"
-        }
-      ]
-    },
     {
       "id": "claim_243ef1bc0941446f99400261f293f8f6",
       "statement": "Test files live next to code: internal/eval/eval_test.go, internal/http/flags_test.go, internal/web/server_test.go.",
@@ -33,10 +19,28 @@
           "version": "repo-file-v1:sha256:a68a242df181b72f6b727976eac1ada933f83a185d834f9690f4a17902d61fce"
         }
       ]
+    },
+    {
+      "id": "claim_25c825bab4dd45e9b68e8d85c93073e3",
+      "statement": "Handler and eval tests use the in-memory store so they run without Postgres; CI sets STORE=memory and runs go test and go vet.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/ci.yml",
+          "version": "repo-file-v1:sha256:9c7b5f5ec55c83ef490b2c6c9e570ae060d3f0c61885006637f96dfb37c4e33b"
+        },
+        {
+          "resource": "repo://internal/http/flags_test.go",
+          "version": "repo-file-v1:sha256:4dbc641b3783527515b85573c4a2636b919e1a72ae884efe7eb2ef0dfe208e81"
+        },
+        {
+          "resource": "repo://internal/web/server_test.go",
+          "version": "repo-file-v1:sha256:a68a242df181b72f6b727976eac1ada933f83a185d834f9690f4a17902d61fce"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.9.0",
-    "at": "2026-11-09T18:31:04.450Z"
+    "at": "2026-11-27T17:49:20.614Z"
   }
 }

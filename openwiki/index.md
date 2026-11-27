@@ -4,7 +4,7 @@ okf_version: "0.2"
 
 # Files
 
-- [Quickstart Guide](quickstart.md) - Quickstart guide and navigation entrypoint for developers exploring the Flaggo repository.
+- [Quickstart Guide](quickstart.md) - Quickstart guide and navigation entrypoint for developers exploring the Flaggo repository and OpenWiki documentation.
 
 # Directories
 

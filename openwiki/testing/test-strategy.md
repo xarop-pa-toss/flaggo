@@ -2,10 +2,10 @@
 type: testing-strategy
 title: Testing Strategy
 description: Unit and handler tests for Flaggo, the in-memory store in tests, and STORE=memory usage.
-tags: [testing, unit-tests, handlers, eval]
+tags: [testing, unit-tests, handlers, eval, ci]
 verified:
   - by: openwiki/0.9.0
-    at: 2026-11-09T18:31:04.450Z
+    at: 2026-11-27T17:49:20.614Z
 sources:
   - id: openwiki-source-164e2da859b5277df81c7d94
     resource: repo://.github/workflows/ci.yml
@@ -15,7 +15,7 @@ sources:
     resource: repo://internal/http/flags_test.go
   - id: openwiki-source-34807c38e67e1c45c91262c2
     resource: repo://internal/web/server_test.go
-generated: { by: "pi", at: "2026-11-09T18:31:04.450Z" }
+generated: { by: "openwiki/0.9.0", at: "2026-11-27T17:49:20.614Z" }
 ---
 
 # Testing Strategy
@@ -23,32 +23,51 @@ generated: { by: "pi", at: "2026-11-09T18:31:04.450Z" }
 ## Responsibility
 
 Tests live next to code (`*_test.go`) and run with `STORE=memory` so no
-Postgres is needed. CI runs `go test -v ./...`.
+Postgres database is required for unit, handler, or integration test suites.
+CI runs `go test -v ./...` and `go vet ./...` alongside binary compilation checks.
 
-## Test files
+```mermaid
+graph TD
+    subgraph Test Suites
+        Eval[internal/eval/eval_test.go]
+        Flags[internal/http/flags_test.go]
+        Server[internal/web/server_test.go]
+    end
 
-- `internal/eval/eval_test.go` — kill switch, disabled, 0/100 rollout, and
-  determinism of `Evaluate`.
-- `internal/http/flags_test.go` — CRUD, kill switch, rollout, and error paths
-  against the in-memory store.
-- `internal/web/server_test.go` — gateway `/healthz` and `/readyz` behavior.
+    subgraph Infrastructure
+        Mem[store.NewMemory / fakeStore]
+        HttpTest[net/http/httptest]
+    end
 
-## Approach
+    Eval -->|Pure Unit Tests| Determinism[Deterministic Rollout & Hash]
+    Flags -->|Handler Tests| Mem
+    Server -->|Stack Integration| Mem
+    Flags --> HttpTest
+    Server --> HttpTest
+```
 
-- Handler tests use `MemoryStore` (no DB), keeping tests fast and isolated.
-- `httptest` recorder / server for HTTP-level assertions.
-- Evaluation tests are pure function tests (no I/O).
-- Tests must pass with `go test ./...` and `go vet ./...`.
+## Test Files and Scope
 
-## Gaps
+- **`internal/eval/eval_test.go`**: Pure unit tests covering feature flag evaluation logic including kill switches, disabled flags, rollout percentages (0%, 100%, and intermediate distributions), and determinism of `Evaluate` [repo://internal/eval/eval_test.go].
+- **`internal/http/flags_test.go`**: HTTP handler and CRUD tests using in-memory mock stores and `httptest.NewRequest`/`httptest.NewRecorder` to verify endpoints, validation, and error paths [repo://internal/http/flags_test.go].
+- **`internal/web/server_test.go`**: Gateway and dashboard integration tests (`newStack`) that spin up an in-process Control Plane API wired to a frontend proxy using `store.NewMemory()` [repo://internal/web/server_test.go].
 
-- No integration tests against Postgres yet.
-- No end-to-end test of the polling client.
-- No load/soak tests.
+## Approach and Invariants
+
+- **No external dependencies**: Handler and evaluation tests use in-memory stores (`store.NewMemory()` or `fakeStore`), allowing fast parallel test execution without Postgres [repo://.github/workflows/ci.yml, repo://internal/http/flags_test.go, repo://internal/web/server_test.go].
+- **HTTP test harnesses**: Uses `net/http/httptest` recorders and servers for HTTP-level assertions and proxy routing.
+- **Pure evaluation**: Evaluation tests run as pure functions with zero I/O overhead.
+- **CI Pipeline Verification**: CI runs `go vet ./...`, `go test -v ./...` with `STORE=memory`, and compiles all binaries (`cmd/flaggo`, `cmd/flaggo-web`, and `examples/client`) [repo://.github/workflows/ci.yml].
+
+## Test Gaps & Future Work
+
+- Integration test suite against a real PostgreSQL instance.
+- End-to-end testing of the polling client daemon.
+- Load, stress, and soak test suites.
 
 ## Related
 
-- `openwiki/api/control-plane-api.md`
-- `openwiki/evaluation/flag-evaluation.md`
-- `openwiki/storage/storage-layer.md`
-- `openwiki/build/ci-pipeline.md`
+- [Control Plane API](../api/control-plane-api.md)
+- [Flag Evaluation](../evaluation/flag-evaluation.md)
+- [Storage Layer](../storage/storage-layer.md)
+- [CI Pipeline](../build/ci-pipeline.md)

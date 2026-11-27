@@ -1,30 +1,30 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:879ab0beda28251b3a44c83f4ee7ef8662d6c86548d81f1dfe0b9913476456d1",
+  "pageVersion": "sha256:7067ba1942fbaf483c62d49ef6ecfc3f705ef169648a9d6a80f67c1e6fa4548a",
   "claims": [
-    {
-      "id": "claim_a438c9722b654c27b0712d32b25b6131",
-      "statement": "CI runs go vet, go test, and go build for all three binaries on push and pull request to main.",
-      "evidence": [
-        {
-          "resource": "repo://.github/workflows/ci.yml",
-          "version": "repo-file-v1:sha256:1da07f6555fc3859d15a34b43b000b8cd41f5b1b0e0dc0386b2c57e4c076eedc"
-        }
-      ]
-    },
     {
       "id": "claim_1ee4c8b643b2415a8c67bbe305e89494",
       "statement": "Tests run with STORE=memory so they do not require Postgres.",
       "evidence": [
         {
           "resource": "repo://.github/workflows/ci.yml",
-          "version": "repo-file-v1:sha256:1da07f6555fc3859d15a34b43b000b8cd41f5b1b0e0dc0386b2c57e4c076eedc"
+          "version": "repo-file-v1:sha256:9c7b5f5ec55c83ef490b2c6c9e570ae060d3f0c61885006637f96dfb37c4e33b"
+        }
+      ]
+    },
+    {
+      "id": "claim_911f59be5bcd4cdabe9104b5debf5b03",
+      "statement": "CI runs go vet, go test with STORE=memory, and go build for all three binaries on push and pull request to main.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/ci.yml",
+          "version": "repo-file-v1:sha256:9c7b5f5ec55c83ef490b2c6c9e570ae060d3f0c61885006637f96dfb37c4e33b"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.9.0",
-    "at": "2026-11-09T18:31:04.450Z"
+    "at": "2026-11-27T17:49:20.614Z"
   }
 }
