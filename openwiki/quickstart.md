@@ -1,11 +1,11 @@
 ---
 type: "Guide"
 title: "Quickstart Guide"
-description: "Quickstart guide and navigation entrypoint for developers exploring the Flaggo repository."
+description: "Quickstart guide and navigation entrypoint for developers exploring the Flaggo repository and OpenWiki documentation."
 tags: ["quickstart", "onboarding", "navigation", "development"]
 verified:
   - by: openwiki/0.9.0
-    at: 2026-11-13T15:53:50.497Z
+    at: 2026-11-27T17:49:20.614Z
 sources:
   - id: openwiki-source-8037e2358a2c4f9b2c722a11
     resource: repo://AGENTS.md
@@ -13,7 +13,7 @@ sources:
     resource: repo://go.mod
   - id: openwiki-source-23775c3de52f3ab95a13cb8b
     resource: repo://README.md
-generated: { by: "openwiki/0.9.0", at: "2026-11-13T15:53:50.497Z" }
+generated: { by: "openwiki/0.9.0", at: "2026-11-27T17:49:20.614Z" }
 ---
 
 # Quickstart Guide
@@ -31,12 +31,47 @@ The repository contains three primary components:
 
 ## Navigation Map
 
-Use the following documentation hierarchy to explore the OpenWiki knowledge base:
+Use the following documentation hierarchy to explore the OpenWiki knowledge base across all architectural domains:
 
-| Domain / Topic | Wiki Page | Description |
-|----------------|-----------|-------------|
-| **Architecture** | [Architecture Overview](architecture/overview.md) | High-level architectural overview of the system, components, and data flows. |
-| **Configuration** | [Environment Configuration](configuration/environment.md) | Comprehensive reference for environment variables and configuration settings across backend, frontend, and client. |
+### Architecture & Design
+| Topic | Wiki Page | Description |
+|-------|-----------|-------------|
+| **Architecture Overview** | [Architecture Overview](architecture/overview.md) | High-level architectural overview of the system, components, and data flows. |
+| **Request Flow** | [Request Flow](architecture/request-flow.md) | End-to-end request flow handling across control plane and client evaluation. |
+
+### Domain & Evaluation
+| Topic | Wiki Page | Description |
+|-------|-----------|-------------|
+| **Flag Model** | [Flag Model](domain/flag-model.md) | Core domain model definition and data structures for feature flags. |
+| **Flag Evaluation** | [Evaluation Engine](evaluation/flag-evaluation.md) | Deterministic rollout hashing and flag evaluation logic. |
+
+### Client & API
+| Topic | Wiki Page | Description |
+|-------|-----------|-------------|
+| **Control Plane API** | [Control Plane API](api/control-plane-api.md) | REST API endpoints for managing feature flags and state. |
+| **API Middleware** | [API Middleware](api/middleware.md) | Middleware layers for logging, recovery, and request handling. |
+| **Data-Plane Client** | [Data-Plane Client](client/data-plane-client.md) | Client library and polling worker implementation for consuming flags. |
+
+### Storage & Runtime
+| Topic | Wiki Page | Description |
+|-------|-----------|-------------|
+| **Storage Layer** | [Storage Layer](storage/storage-layer.md) | Persistence backends including in-memory and PostgreSQL adapters. |
+| **Runtime Lifecycle** | [Runtime Lifecycle](runtime/lifecycle.md) | Application startup, shutdown, and lifecycle management. |
+
+### Frontend & Operations
+| Topic | Wiki Page | Description |
+|-------|-----------|-------------|
+| **Frontend Gateway** | [Frontend Gateway](frontend/gateway.md) | Dashboard web interface and proxy gateway. |
+| **Health and Readiness** | [Health & Readiness](operations/health-and-readiness.md) | Health check probes and readiness endpoints. |
+| **Metrics and Logging** | [Metrics & Logging](observability/metrics-and-logging.md) | Observability, structured logging, and metrics collection. |
+
+### Configuration & Build
+| Topic | Wiki Page | Description |
+|-------|-----------|-------------|
+| **Environment Configuration** | [Environment Configuration](configuration/environment.md) | Comprehensive reference for environment variables and configuration settings. |
+| **CI Pipeline** | [CI Pipeline](build/ci-pipeline.md) | Continuous integration pipelines and automated build workflows. |
+| **Containerization** | [Containerization](build/containerization.md) | Dockerfiles and container packaging strategy. |
+| **Test Strategy** | [Test Strategy](testing/test-strategy.md) | Unit, integration, and end-to-end test suites. |
 
 ---
 
